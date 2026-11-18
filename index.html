@@ -1664,7 +1664,7 @@ function v3Level(n) {
           if (voice) { S.v3heard = S.v3heard || {}; S.v3heard[n] = true; save(); box.querySelector('#tocards').disabled = false; } return; }
         const [ri, k] = beats[i++]; rows.forEach((r, x) => r.classList.toggle('cur', x === ri));
         const cell = rows[ri].querySelectorAll('b,.cn')[k]; cell.classList.add('beat'); tick(k === 0);
-        if (k < 3 && voice) speak(VS[ri].f[k].replace('/', ', '));
+        if (k < 3 && voice) speak(v3Say(VS[ri].f, k));
         if (k === 0) rows[ri].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }, 950);
       stopChant = () => { alive = false; clearInterval(iv); box.querySelector('#stop') && (box.querySelector('#stop').hidden = true); };
@@ -1689,7 +1689,7 @@ function v3Level(n) {
         const ok = +b.dataset.i === ans; box.querySelectorAll('.opt').forEach(x => x.disabled = true);
         box.querySelector(`.opt[data-i="${ans}"]`).classList.add('right'); if (!ok) b.classList.add('wrong');
         const g = box.querySelector('#gap'); g.textContent = f[it.k]; g.classList.add(ok ? 'ok' : 'no');
-        if (ok) speak(f.join(', ').replace(/\//g, ', '));
+        if (ok) speak([0, 1, 2].map(k => v3Say(f, k)).join(', '));
         if (!ok && !it.again) queue.push({ v: it.v, k: it.k, again: true });
         box.querySelector('#cfb').innerHTML = `<div class="feedback ${ok ? 'good' : 'bad'}"><b>${ok ? 'Right!' : '等一下再考一次這張'}</b><span class="why">${f.map(esc).join(' → ')}（${esc(z)}）</span></div><button class="big-btn next" id="cnext" style="margin-top:10px">Next →</button>`;
         box.querySelector('#cnext').onclick = () => { ci++; show(); };
@@ -1731,6 +1731,9 @@ function v3Final() {
   });
 }
 
+// Same spelling, different sound: past / p.p. of read is said "red" (text-to-speech can't tell from one word).
+const V3_SOUND = { read: [null, 'red', 'red'] };
+const v3Say = (f, k) => ((V3_SOUND[f[0]] || [])[k] || f[k]).replace(/\//g, ', ');
 // ───────── Rewards (added): town map from code items + coins for snacks ─────────
 // Teacher can change these two lines: the snack price list and the PIN used to spend coins.
 const REWARDS = [{ e: '🍬', t: '小點心', c: 60 }, { e: '🧃', t: '飲料', c: 150 }, { e: '🍦', t: '大獎：冰淇淋或點心', c: 300 }];
