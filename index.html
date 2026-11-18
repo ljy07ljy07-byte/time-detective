@@ -1052,8 +1052,8 @@ const DEMOS = {
   fut: [
     { tab: '① will + 原形', steps: [
       ['@1Nora +will help Theo +tomorrow.', 'will + 原形動詞', 'will help', 'n:🔮', 'will 不分人', 'will'],
-      ['@mThey +will help Theo +tomorrow.', '很多人 → 也是 will', 'they will help', 'nt:🔮', 'will 不分人', 'all'],
-      ['@mI +will help Theo +tomorrow.', 'I → 也是 will', 'I will help', 'n:🔮', 'will 不分人', 'all'],
+      ['@mThey +will help Theo +tomorrow.', '很多人 → 也是 will', 'they will help', 'nt:🔮', 'will 不分人', 'will'],
+      ['@mI +will help Theo +tomorrow.', 'I → 也是 will', 'I will help', 'n:🔮', 'will 不分人', 'will'],
       ] },
     { tab: '② won’t / Will?', steps: [
       ['@1Nora [will>won’t] help Theo tomorrow.', '不會 → won’t', 'will not = won’t', 'n:🔮', 'won’t 不分人', 'not'],
@@ -1075,13 +1075,12 @@ const DEMOS = {
       ['@1Mr. Hale has worked here +since 1985.', 'since + 從什麼時候開始', 'since 1985', 'nt:🌉', '用 has', 'for'] ] },
   ],
   pastpf: [
-    { tab: '① 誰先發生？', steps: [
+    { tab: '先發生 → had', steps: [
       ['① The clock stopped. ② Nora arrived.', '① 先 ② 後', '① first, ② later', 'n:🕛', '', 'order'],
       ['② When Nora arrived, ① the clock +had stopped.', '先發生的 → had + 過去分詞', 'had stopped', 'nt:🕛', '', 'had'],
-      ['② When Nora arrived, ① the clock had +already stopped.', 'already 讓順序更清楚', 'already', 'nt:🕛', '', 'had'] ] },
-    { tab: '② 大家都用 had', steps: [
-      ['@1Theo had finished before dinner.', '一個人 → had', 'he had finished', 't:🕛', 'had 不分人', 'all'],
-      ['@mThey had finished before dinner.', '很多人 → 也是 had', 'they had finished', 'nt:🕛', 'had 不分人', 'all'] ] },
+      ['② When Nora arrived, ① the clock had +already stopped.', 'already 讓順序更清楚', 'already', 'nt:🕛', '', 'had'],
+      ['@1Theo had finished before dinner.', '一個人 → had', 'he had finished', 't:🕛', 'had 不分人', 'had'],
+      ['@mThey had finished before dinner.', '很多人 → 也是 had', 'they had finished', 'nt:🕛', 'had 不分人', 'had'] ] },
   ],
 };
 // "Big picture" summary table beside the animation: [row label, [[cellId, text], ...]]
@@ -1093,10 +1092,10 @@ const MAPS = {
   prog: [['📸 be + ing', [['am', 'I am'], ['is', 'he・she・it is', 1], ['are', 'you・we・they are']], 0, 1],
     ['✏️ ing', [['ing', '+ ing'], ['e', 'e → ing', 1], ['dbl', 'run → running', 1]], 1], ['❓ not / ?', [['not', 'be + not'], ['q', 'Is / Are … ?', 1]], 2]],
   past: [['⏪ 過去式', [['ed', '+ ed'], ['ied', 'y → ied', 1], ['dbl', 'stop → stopped', 1], ['irr', 'go → went', 1]], 0, 1],
-    ['👥 誰', [['all', '大家都一樣']], 2], ['❓ not / ?', [['did', 'did / didn’t + 原形', 1]], 3]],
-  fut: [['🔮 will + 原形', [['will', 'will help', 1]], 0, 1], ['👥 誰', [['all', '大家都一樣']], 0], ['❓ not / ?', [['not', 'won’t', 1], ['q', 'Will … ?']], 1]],
+    ['👥 大家都一樣 + did', [['all', 'walked・went'], ['did', 'did / didn’t + 原形', 1]], [2, 3]]],
+  fut: [['🔮 will + 原形（大家都一樣）', [['will', 'will help', 1]], 0, 1], ['❓ not / ?', [['not', 'won’t', 1], ['q', 'Will … ?']], 1]],
   pp: [['🌉 have / has + 第三態', [['pp', 'go → gone', 1], ['have', 'have'], ['has', 'he・she・it has', 1]], 0, 1], ['⏳ for / since', [['for', 'for / since']], 3]],
-  pastpf: [['🕵️ 順序', [['order', '① 先 ② 後']], 0], ['① 先發生 → had + 第三態', [['had', 'had stopped', 1]], 0, 1], ['👥 誰', [['all', '大家都用 had']], 1]],
+  pastpf: [['🕵️ 先發生 → had（大家都一樣）', [['order', '① 先 ② 後'], ['had', 'had stopped', 1]], 0, 1]],
 };
 // ONE core learning target per unit, shown at the top of the map
 const TARGETS = { pres: 'he・she・it → 動詞 + s', prog: 'am / is / are + 動詞ing', past: '動詞變成過去式', fut: 'will + 原形動詞', pp: 'have / has + 過去分詞', pastpf: '先發生的事 → had + 過去分詞' };
@@ -1132,7 +1131,7 @@ function morphHTML(src, tense) {
 const prep = src => src;
 function playerHTML(id, secs) {
   return `<div class="player" data-p="${id}" style="--tc:${color(id)}">
-    <div class="pwrap"><div class="pmap"><div class="pmap-target">🎯 本單元重點<b>${TARGETS[id]}</b></div><div class="pmap-h">📋 總表 · 點一格看動畫</div>${MAPS[id].map(([lab, cells, sec, big]) => `<button class="pm-row ${big ? 'big' : ''} ${secs && !secs.includes(sec) ? 'off' : ''}" data-sec="${sec}" ${secs && !secs.includes(sec) ? 'disabled' : ''}><span class="pm-lab">${lab}</span><span class="pm-cells">${cells.map(([cid, t, key]) => `<span class="pm-cell ${key ? 'key' : ''}" data-cell="${cid}">${t}</span>`).join('')}</span></button>`).join('')}</div>
+    <div class="pwrap"><div class="pmap"><div class="pmap-target">🎯 本單元重點<b>${TARGETS[id]}</b></div><div class="pmap-h">📋 總表 · 點一格看動畫</div>${MAPS[id].map(([lab, cells, sec, big]) => { const off = secs && ![].concat(sec).some(x => secs.includes(x)); return `<button class="pm-row ${big ? 'big' : ''} ${off ? 'off' : ''}" data-sec="${[].concat(sec)[0]}" ${off ? 'disabled' : ''}><span class="pm-lab">${lab}</span><span class="pm-cells">${cells.map(([cid, t, key]) => `<span class="pm-cell ${key ? 'key' : ''}" data-cell="${cid}">${t}</span>`).join('')}</span></button>`; }).join('')}</div>
     <div class="pstage"></div></div>
     <div class="pctl"><button class="pbtn" data-a="prev" aria-label="Back">◀</button><span class="pdots"></span><button class="pbtn wide" data-a="replay">⟲ 重播</button><button class="pbtn" data-a="music" aria-label="Music on/off"></button><button class="pbtn next" data-a="next">Next ▶</button></div></div>`;
 }
@@ -1201,7 +1200,7 @@ const CHUNKS = {
   past: [{ s: '動詞 + ed', t: '+ ed', zh: '規則動詞', secs: [0] }, { s: '變身動詞', t: '變身動詞', zh: 'go → went', secs: [1] }, { s: '不分人 + did', t: '不分人 + did', zh: '問句和否定', secs: [2, 3] }],
   fut: [{ s: 'will + 原形', t: 'will + 原形', zh: '未來會做', secs: [0] }, { s: 'won’t / Will?', t: 'won’t / Will?', zh: '否定和問句', secs: [1] }],
   pp: [{ s: '動詞第三態', t: '動詞第三態', zh: 'go → gone', secs: [0] }, { s: 'have/has + 第三態', t: 'have / has + 第三態', zh: '一個人用 has', secs: [1, 2] }, { s: 'for / since', t: 'for / since', zh: '多久、從何時', secs: [3] }],
-  pastpf: [{ s: '先發生 → had', t: '誰先發生 → had', zh: '先發生的加 had', secs: [0] }, { s: '大家都用 had', t: '大家都用 had', zh: 'had 不分人', secs: [1] }],
+  pastpf: [{ s: '先發生 → had + 第三態', t: '先發生 → had + 第三態', zh: '大家都用 had', secs: [0] }],
 };
 // [sentence with ___, options (first = correct), why]
 const PRACTICE = {
@@ -1219,7 +1218,7 @@ const PRACTICE = {
   'pp-1': [['go → went → ___', ['gone', 'goed', 'went'], 'go 的第三態 = gone'], ['see → saw → ___', ['seen', 'sawed', 'saw'], 'see 的第三態 = seen'], ['eat → ate → ___', ['eaten', 'ated', 'ate'], 'eat 的第三態 = eaten'], ['walk → walked → ___', ['walked', 'walken', 'walk'], '規則動詞：第三態 = 過去式'], ['write → wrote → ___', ['written', 'wrote', 'writed'], 'write 的第三態 = written']],
   'pp-2': [['Theo ___ just seen a ghost!', ['has', 'have'], 'Theo = he → has'], ['I ___ already finished my homework.', ['have', 'has'], 'I → have'], ['Nora has just ___ the key. (find)', ['found', 'find', 'finds'], 'has + 第三態'], ['They have ___ to Japan twice. (be)', ['been', 'be', 'was'], 'be 的第三態 = been'], ['She has never ___ sushi. (eat)', ['eaten', 'ate', 'eat'], 'has + 第三態']],
   'pp-3': [['Mr. Hale has worked here ___ 40 years.', ['for', 'since'], '一段時間 → for'], ['I have lived here ___ 2020.', ['since', 'for'], '起點 → since'], ['We have known Theo ___ three years.', ['for', 'since'], '一段時間 → for'], ['Nora has been sick ___ Monday.', ['since', 'for'], '起點 → since'], ['They have waited ___ an hour.', ['for', 'since'], '一段時間 → for']],
-  'pastpf-1': [['When Nora arrived, the clock ___ stopped.', ['had', 'has', 'have'], '先發生的 → had'], ['The movie had ___ when we got there. (start)', ['started', 'start', 'starts'], 'had + 第三態'], ['Theo ___ already left when I called.', ['had', 'has', 'was'], '先離開 → had'], ['She had ___ the book before class. (read)', ['read', 'reads', 'reading'], 'had + 第三態（read）'], ['By the time we came, they ___ eaten.', ['had', 'have', 'has'], '先吃完 → had']],
+  'pastpf-1': [['When Nora arrived, the clock ___ stopped.', ['had', 'has', 'have'], '先發生的 → had'], ['The movie had ___ when we got there. (start)', ['started', 'start', 'starts'], 'had + 第三態'], ['Theo ___ already left when I called.', ['had', 'has', 'was'], '先離開 → had'], ['She had ___ the book before class. (read)', ['read', 'reads', 'reading'], 'had + 第三態（read）'], ['By the time we came, they ___ eaten.', ['had', 'have', 'has'], '先吃完 → had'], ['I ___ finished my homework before Mom came home.', ['had', 'has', 'have'], '先寫完 → had，大家都一樣']],
   'pastpf-2': [['I ___ finished my homework before Mom came home.', ['had', 'has', 'have'], 'had 不分人'], ['Nora ___ seen the map before that day.', ['had', 'has', 'have'], 'had 不分人'], ['They had ___ home by the time we arrived. (go)', ['gone', 'went', 'go'], 'had + 第三態'], ['He ___ never flown before last summer.', ['had', 'has', 'have'], 'had 不分人'], ['We had ___ the door before we left. (lock)', ['locked', 'lock', 'locks'], 'had + 第三態']],
 };
 S.lessons = S.lessons || {};
