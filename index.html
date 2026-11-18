@@ -541,6 +541,37 @@ body.show-zh span.zh { display: inline; }
 .v3r b.gap.no { background: #fdecec; border-color: var(--bad); color: var(--bad); border-style: solid; }
 .lsteps span { white-space: nowrap; }
 @media (max-width: 560px) { .v3r b { font-size: 16px; padding: 5px 2px; } .v3r .cn { font-size: 13px; } .v3r.big b { font-size: 22px; } }
+.myfile { margin: 22px 0 10px; padding: 16px; border-radius: 22px; background: linear-gradient(160deg, #fff8e6, #eef7ff); border: 3px solid #f0c75e; }
+.myfile h2 { margin: 0 0 8px; text-align: center; font-family: var(--display); }
+.mf-name { display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 20px; margin-bottom: 10px; flex-wrap: wrap; }
+.mf-name b { font-size: 26px; color: #b45309; } .mf-edit { border: 0; background: none; font-size: 16px; cursor: pointer; }
+.mf-name:has(b) .mf-in { display: none; } .mf-name.ed .mf-in { display: flex; } .mf-in { display: flex; gap: 6px; width: min(360px, 100%); }
+.mf-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px; } @media (max-width: 700px) { .mf-grid { grid-template-columns: 1fr; } }
+.mf-box { font: inherit; text-align: left; display: grid; gap: 6px; align-content: start; background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 12px; cursor: pointer; color: var(--ink); }
+.mf-k { font-weight: 800; } .mf-v { font-size: 34px; font-weight: 900; font-family: var(--display); } .mf-v small { font-size: 15px; color: var(--muted); }
+.mf-items { display: flex; flex-wrap: wrap; gap: 4px; } .mf-items > span { display: grid; justify-items: center; font-size: 26px; width: 54px; } .mf-items small { font-size: 11px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.mf-items em { color: var(--muted); font-style: normal; }
+.mf-box.coin .mf-v { color: #b07800; } .mf-next { font-weight: 700; }
+.mf-bar { height: 12px; border-radius: 99px; background: #f3e6c4; overflow: hidden; } .mf-bar i { display: block; height: 100%; background: linear-gradient(90deg, #f6c445, #e3a008); }
+/* rewards: town map + coin shop */
+.town { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; padding: 12px; border-radius: 20px; background: repeating-linear-gradient(90deg, #e9f6e3 0 46px, #e2f1db 46px 92px); border: 3px solid #b9d8a8; }
+.tz { background: #fffef8; border: 2px solid color-mix(in srgb, var(--tc) 45%, var(--line)); border-radius: 14px; padding: 8px 10px; display: grid; gap: 6px; align-content: start; }
+.tz h3 { margin: 0; font-size: 15px; color: var(--tc); }
+.tz.full { box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 30%, transparent); }
+.tz-items { display: flex; flex-wrap: wrap; gap: 6px; }
+.ti { width: 64px; display: grid; justify-items: center; gap: 1px; border: 2px dashed var(--line); border-radius: 12px; padding: 4px 2px; color: var(--muted); }
+.ti b { font-size: 28px; line-height: 1.1; } .ti small { font-size: 11.5px; font-weight: 700; }
+.ti.got { border: 2px solid var(--tc); background: color-mix(in srgb, var(--tc) 8%, #fff); color: var(--ink); animation: popword .6s both; }
+.clue { margin: 0; font-size: 13.5px; font-weight: 700; color: var(--muted); } .tz.full .clue { color: var(--ink); }
+.cert { border: 6px double #c79a2b; border-radius: 18px; padding: 18px; text-align: center; background: #fffaf0; display: grid; gap: 6px; justify-items: center; }
+.cert img { width: 64px; height: 64px; border-radius: 50%; } .cert .ck { font-weight: 800; color: #9a6f12; letter-spacing: .1em; }
+.cert h2 { font-size: 34px; margin: 0; font-family: var(--display); } .cert .cbig { font-size: 30px; font-weight: 900; color: #b45309; }
+.nm { font: inherit; font-size: 17px; padding: 10px 12px; border: 2px solid var(--line); border-radius: 12px; min-width: 0; flex: 1; }
+.coinbig { font-size: 54px; font-weight: 900; font-family: var(--display); color: #b07800; }
+.shop { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.sh { display: grid; justify-items: center; gap: 6px; background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 14px; text-align: center; }
+.sh.can { border-color: #e3a008; background: #fffaf0; } .sh .se { font-size: 46px; } .sh .sc { font-weight: 800; color: #b07800; }
+.sh .go-btn[disabled] { opacity: .45; }
 /* 良立文教 branding */
 .lb-brand { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .lb-brand img { width: 52px; height: 52px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,.18); background: #fff; }
@@ -949,11 +980,11 @@ S.brief = S.brief || {};
 S.codes = S.codes || {};
 // ───────── Parent check codes (added) ─────────
 // One fixed picture + word per case (3 per unit) and one for the final case. Encoded so kids can't simply read them in the file.
-const CODES = JSON.parse(decodeURIComponent(atob('JTdCJTIycHJlcy0xJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThFJTgyJTIyJTJDJTIwJTIyJUU4JTlCJThCJUU3JUIzJTk1JTIyJTJDJTIwJTIyY2FrZSUyMiU1RCUyQyUyMCUyMnByZXMtMiUyMiUzQSUyMCU1QiUyMiVGMCU5RiVBQSU5MSUyMiUyQyUyMCUyMiVFNiVBNCU4NSVFNSVBRCU5MCUyMiUyQyUyMCUyMmNoYWlyJTIyJTVEJTJDJTIwJTIycHJlcy0zJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThEJTg5JTIyJTJDJTIwJTIyJUU4JUE1JUJGJUU3JTkzJTlDJTIyJTJDJTIwJTIyd2F0ZXJtZWxvbiUyMiU1RCUyQyUyMCUyMnByb2ctMSUyMiUzQSUyMCU1QiUyMiVGMCU5RiVBNiU4QSUyMiUyQyUyMCUyMiVFNyU4QiU5MCVFNyU4QiVCOCUyMiUyQyUyMCUyMmZveCUyMiU1RCUyQyUyMCUyMnByb2ctMiUyMiUzQSUyMCU1QiUyMiVGMCU5RiU4RCU5MyUyMiUyQyUyMCUyMiVFOCU4RCU4OSVFOCU4RSU5MyUyMiUyQyUyMCUyMnN0cmF3YmVycnklMjIlNUQlMkMlMjAlMjJwcm9nLTMlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOUElODAlMjIlMkMlMjAlMjIlRTclODElQUIlRTclQUUlQUQlMjIlMkMlMjAlMjJyb2NrZXQlMjIlNUQlMkMlMjAlMjJwYXN0LTElMjIlM0ElMjAlNUIlMjIlRTIlOUElQkQlMjIlMkMlMjAlMjIlRTglQjYlQjMlRTclOTAlODMlMjIlMkMlMjAlMjJzb2NjZXIlMjBiYWxsJTIyJTVEJTJDJTIwJTIycGFzdC0yJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThDJTg4JTIyJTJDJTIwJTIyJUU1JUJEJUE5JUU4JTk5JUI5JTIyJTJDJTIwJTIycmFpbmJvdyUyMiU1RCUyQyUyMCUyMnBhc3QtMyUyMiUzQSUyMCU1QiUyMiVGMCU5RiU4RCU4QyUyMiUyQyUyMCUyMiVFOSVBNiU5OSVFOCU5NSU4OSUyMiUyQyUyMCUyMmJhbmFuYSUyMiU1RCUyQyUyMCUyMmZ1dC0xJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThDJUJCJTIyJTJDJTIwJTIyJUU1JTkwJTkxJUU2JTk3JUE1JUU4JTkxJUI1JTIyJTJDJTIwJTIyc3VuZmxvd2VyJTIyJTVEJTJDJTIwJTIyZnV0LTIlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOTAlQUYlMjIlMkMlMjAlMjIlRTglODAlODElRTglOTklOEUlMjIlMkMlMjAlMjJ0aWdlciUyMiU1RCUyQyUyMCUyMmZ1dC0zJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThEJTg3JTIyJTJDJTIwJTIyJUU4JTkxJUExJUU4JTkwJTg0JTIyJTJDJTIwJTIyZ3JhcGVzJTIyJTVEJTJDJTIwJTIycHAtMSUyMiUzQSUyMCU1QiUyMiVGMCU5RiVBNyVCOCUyMiUyQyUyMCUyMiVFNSVCMCU4RiVFNyU4NiU4QSUyMiUyQyUyMCUyMnRlZGR5JTIwYmVhciUyMiU1RCUyQyUyMCUyMnBwLTIlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOEUlQjglMjIlMkMlMjAlMjIlRTUlOTAlODklRTQlQkIlOTYlMjIlMkMlMjAlMjJndWl0YXIlMjIlNUQlMkMlMjAlMjJwcC0zJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThDJTk5JTIyJTJDJTIwJTIyJUU2JTlDJTg4JUU0JUJBJUFFJTIyJTJDJTIwJTIybW9vbiUyMiU1RCUyQyUyMCUyMnBhc3RwZi0xJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThEJUE2JTIyJTJDJTIwJTIyJUU1JTg2JUIwJUU2JUI3JTg3JUU2JUI3JThCJTIyJTJDJTIwJTIyaWNlJTIwY3JlYW0lMjIlNUQlMkMlMjAlMjJwYXN0cGYtMiUyMiUzQSUyMCU1QiUyMiVGMCU5RiU5MCVCOCUyMiUyQyUyMCUyMiVFOSU5RCU5MiVFOCU5QiU5OSUyMiUyQyUyMCUyMmZyb2clMjIlNUQlMkMlMjAlMjJwYXN0cGYtMyUyMiUzQSUyMCU1QiUyMiVGMCU5RiVBNiU4QiUyMiUyQyUyMCUyMiVFOCU5RCVCNCVFOCU5RCVCNiUyMiUyQyUyMCUyMmJ1dHRlcmZseSUyMiU1RCUyQyUyMCUyMmJvc3MlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOEQlQTklMjIlMkMlMjAlMjIlRTclOTQlOUMlRTclOTQlOUMlRTUlOUMlODglMjIlMkMlMjAlMjJkb251dCUyMiU1RCU3RA==')));
+const CODES = JSON.parse(decodeURIComponent(atob('JTdCJTIycHJlcy0xJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThGJUEwJTIyJTJDJTIwJTIyJUU2JTg4JUJGJUU1JUFEJTkwJTIyJTJDJTIwJTIyaG91c2UlMjIlNUQlMkMlMjAlMjJwcmVzLTIlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOEMlQjMlMjIlMkMlMjAlMjIlRTUlQTQlQTclRTYlQTglQjklMjIlMkMlMjAlMjJiaWclMjB0cmVlJTIyJTVEJTJDJTIwJTIycHJlcy0zJTIyJTNBJTIwJTVCJTIyJUYwJTlGJTlBJUE2JTIyJTJDJTIwJTIyJUU3JUI0JTg1JUU3JUI2JUEwJUU3JTg3JTg4JTIyJTJDJTIwJTIydHJhZmZpYyUyMGxpZ2h0JTIyJTVEJTJDJTIwJTIycHJvZy0xJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThDJTg5JTIyJTJDJTIwJTIyJUU1JUIwJThGJUU2JUE5JThCJTIyJTJDJTIwJTIyYnJpZGdlJTIyJTVEJTJDJTIwJTIycHJvZy0yJTIyJTNBJTIwJTVCJTIyJUYwJTlGJUE2JTg2JTIyJTJDJTIwJTIyJUU2JUIxJUEwJUU1JUExJTk4JTIyJTJDJTIwJTIycG9uZCUyMiU1RCUyQyUyMCUyMnByb2ctMyUyMiUzQSUyMCU1QiUyMiVFMiU5QiVCMiUyMiUyQyUyMCUyMiVFNSU5OSVCNCVFNiVCMCVCNCVFNiVCMSVBMCUyMiUyQyUyMCUyMmZvdW50YWluJTIyJTVEJTJDJTIwJTIycGFzdC0xJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThGJUFCJTIyJTJDJTIwJTIyJUU1JUFEJUI4JUU2JUEwJUExJTIyJTJDJTIwJTIyc2Nob29sJTIyJTVEJTJDJTIwJTIycGFzdC0yJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThGJUE1JTIyJTJDJTIwJTIyJUU5JTg2JUFCJUU5JTk5JUEyJTIyJTJDJTIwJTIyaG9zcGl0YWwlMjIlNUQlMkMlMjAlMjJwYXN0LTMlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOEYlQUElMjIlMkMlMjAlMjIlRTQlQkUlQkYlRTUlODglQTklRTUlOTUlODYlRTUlQkElOTclMjIlMkMlMjAlMjJjb252ZW5pZW5jZSUyMHN0b3JlJTIyJTVEJTJDJTIwJTIyZnV0LTElMjIlM0ElMjAlNUIlMjIlRjAlOUYlOUElODklMjIlMkMlMjAlMjIlRTclODElQUIlRTglQkIlOEElRTclQUIlOTklMjIlMkMlMjAlMjJ0cmFpbiUyMHN0YXRpb24lMjIlNUQlMkMlMjAlMjJmdXQtMiUyMiUzQSUyMCU1QiUyMiVGMCU5RiU4RSVBMSUyMiUyQyUyMCUyMiVFNiU5MSVBOSVFNSVBNCVBOSVFOCVCQyVBQSUyMiUyQyUyMCUyMkZlcnJpcyUyMHdoZWVsJTIyJTVEJTJDJTIwJTIycHAtMSUyMiUzQSUyMCU1QiUyMiVGMCU5RiU4RiU5QiVFRiVCOCU4RiUyMiUyQyUyMCUyMiVFNSU4RCU5QSVFNyU4OSVBOSVFOSVBNCVBOCUyMiUyQyUyMCUyMm11c2V1bSUyMiU1RCUyQyUyMCUyMnBwLTIlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOEYlOUYlRUYlQjglOEYlMjIlMkMlMjAlMjIlRTklQUIlOTQlRTglODIlQjIlRTklQTQlQTglMjIlMkMlMjAlMjJzdGFkaXVtJTIyJTVEJTJDJTIwJTIycHAtMyUyMiUzQSUyMCU1QiUyMiVGMCU5RiU4RiVBNiUyMiUyQyUyMCUyMiVFOSU4QSU4MCVFOCVBMSU4QyUyMiUyQyUyMCUyMmJhbmslMjIlNUQlMkMlMjAlMjJwYXN0cGYtMSUyMiUzQSUyMCU1QiUyMiVGMCU5RiU4RiVBOCUyMiUyQyUyMCUyMiVFNiU5NyU4NSVFOSVBNCVBOCUyMiUyQyUyMCUyMmhvdGVsJTIyJTVEJTJDJTIwJTIyYm9zcyUyMiUzQSUyMCU1QiUyMiVGMCU5RiU5NSVCMCVFRiVCOCU4RiUyMiUyQyUyMCUyMiVFOSU5MCU5OCVFNiVBOCU5MyUyMiUyQyUyMCUyMmNsb2NrJTIwdG93ZXIlMjIlNUQlN0Q=')));
 const MAX_PEEKS = 3; // more "Show answer" presses than this in one case → no code, play again
 const codeCard = (key, round) => { const [e, zh, en] = CODES[key]; return `<div class="codecard"><div class="ck">🔑 Parent check code · 家長驗收密碼${round ? ` · ${round}` : ''}</div>
   <div class="cv"><span class="ce">${e}</span><span><b>${zh}</b><br><span class="muted">${en}</span></span></div>
-  <div class="muted" style="font-size:14.5px">Tell your parent or teacher this word.<span class="zh">把這個密碼告訴爸爸媽媽或老師。</span></div></div>`; };
+  <div class="muted" style="font-size:14.5px">It is now on your town map 🗺️. Tell your parent or teacher what you got!<span class="zh">它已經放進你的小鎮地圖了。告訴爸爸媽媽或老師你拿到了什麼！</span></div></div>`; };
 const unitStars = id => [1, 2, 3].reduce((a, n) => a + (S.stars[`${id}-${n}`] || 0), 0);
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 document.body.classList.toggle('show-zh', !!S.zh);
@@ -1423,7 +1454,7 @@ function lessonPage(ch, n) {
     const Q = PRACTICE[`${ch.id}-${n}`]; let qi = 0, right = 0, peeks = 0;
     const q = () => {
       if (qi >= Q.length) {
-        const earned = peeks <= LESSON_PEEKS;
+        const earned = peeks <= LESSON_PEEKS; S.cbest[`${ch.id}-L${n}`] = Math.max(S.cbest[`${ch.id}-L${n}`] || 0, right); save();
         if (earned) { S.lessons[`${ch.id}-${n}`] = true; S.codes[`${ch.id}-L${n}`] = true; if (lessonsDone(ch.id)) S.brief[ch.id] = true; save(); }
         const nextGo = n < total ? `${ch.id}-L${n + 1}` : `${ch.id}-1`;
         box.innerHTML = `<div class="done-card"><div class="duo">${avatar('nora', 70, earned ? 'cheer' : 'smile')}${avatar('theo', 70, earned ? 'cheer' : 'smile')}</div>
@@ -1446,7 +1477,7 @@ function lessonPage(ch, n) {
       };
       box.querySelector('#reveal').onclick = () => { tried = true; peeks++; done(true); };
       box.querySelectorAll('.opt').forEach(b => b.onclick = () => {
-        const ok = +b.dataset.i === ans; if (!tried) { tried = true; if (ok) { right++; toast('+1 ⭐'); } }
+        const ok = +b.dataset.i === ans; if (!tried) { tried = true; if (ok) { right++; toast('+1 🪙'); } }
         b.classList.add(ok ? 'right' : 'wrong'); b.disabled = true;
         if (ok) done(false); else box.querySelector('#tfb').innerHTML = `<div class="feedback bad"><b>Not that one.</b><span class="why">提示：${why}</span></div>`;
       });
@@ -1457,7 +1488,7 @@ function lessonPage(ch, n) {
 
 // ───────── Unit 4 → 5: 動詞三態闖關 (irregular verbs, added) ─────────
 const V3 = [{"t": "超常用 4 個", "p": "★", "tip": "先背最常見的", "g": [{"s": "", "v": ["be|was/were|been|是", "do|did|done|做", "go|went|gone|去", "have|had|had|有；吃"]}], "q": [["Yesterday Nora ___ at the library.", ["was", "were", "been"], "yesterday"], ["Theo ___ his homework last night.", ["did", "done", "does"], "last night"], ["I have already ___ my homework.", ["done", "did", "do"], "have already"], ["They ___ to Japan last summer.", ["went", "gone", "go"], "last summer"], ["We ___ pizza for dinner last night.", ["had", "have", "has"], "last night"]]}, {"t": "三態都一樣", "p": "AAA", "tip": "一個字背到底", "g": [{"s": "", "v": ["cut|cut|cut|切", "put|put|put|放", "hit|hit|hit|打", "hurt|hurt|hurt|受傷；弄痛", "let|let|let|讓", "set|set|set|放置；設定", "shut|shut|shut|關上", "cost|cost|cost|花費（錢）", "quit|quit|quit|放棄；戒掉", "spread|spread|spread|散播；塗抹", "read|read|read|讀"]}], "q": [["Mom ___ the cake into eight pieces yesterday.", ["cut", "cutted", "cuts"], "yesterday"], ["I ___ my bag on the desk an hour ago.", ["put", "putted", "puts"], "an hour ago"], ["The ball ___ Theo's head last week.", ["hit", "hitted", "hits"], "last week"], ["My new shoes ___ 2,000 dollars last month.", ["cost", "costed", "costs"], "last month"], ["I have already ___ this book twice.", ["read", "readed", "reading"], "have already"]]}, {"t": "頭尾一樣", "p": "ABA", "tip": "只有中間變", "g": [{"s": "", "v": ["come|came|come|來", "become|became|become|變成", "run|ran|run|跑"]}], "q": [["Theo ___ to my party last Sunday.", ["came", "come", "comed"], "last Sunday"], ["Nora has just ___ home.", ["come", "came", "comed"], "has just"], ["I ___ to school this morning because I was late.", ["ran", "run", "runned"], "this morning / was"], ["She ___ a teacher in 2020.", ["became", "become", "becomed"], "in 2020"], ["He has ___ a famous singer since last year.", ["become", "became", "becomed"], "has … since"]]}, {"t": "尾巴變 t", "p": "ABB", "tip": "後兩個一樣", "g": [{"s": "ee / ea → e（加 t）", "v": ["feel|felt|felt|感覺", "keep|kept|kept|保持", "sleep|slept|slept|睡", "sweep|swept|swept|掃", "mean|meant|meant|意思是", "leave|left|left|離開", "meet|met|met|遇見", "feed|fed|fed|餵", "lead|led|led|帶領"]}, {"s": "d → t", "v": ["build|built|built|建造", "send|sent|sent|寄；送", "spend|spent|spent|花（時間/錢）", "lend|lent|lent|借出"]}], "q": [["I ___ very tired last night.", ["felt", "feeled", "feel"], "last night"], ["Theo ___ ten hours yesterday.", ["slept", "sleeped", "sleep"], "yesterday"], ["We ___ our new teacher two days ago.", ["met", "meeted", "meet"], "two days ago"], ["Dad has already ___ for work.", ["left", "leaved", "leave"], "has already"], ["I have ___ all my money this week.", ["spent", "spended", "spend"], "have … this week"]]}, {"t": "尾巴變 d", "p": "ABB", "tip": "後兩個一樣", "g": [{"s": "ay → aid", "v": ["say|said|said|說", "pay|paid|paid|付錢", "lay|laid|laid|放；下蛋"]}, {"s": "ell → old", "v": ["sell|sold|sold|賣", "tell|told|told|告訴"]}, {"s": "+ d", "v": ["hear|heard|heard|聽到", "make|made|made|做"]}], "q": [["Nora ___ \"Good morning\" to Mr. Hale this morning.", ["said", "sayed", "says"], "this morning"], ["I ___ 100 dollars for the book last week.", ["paid", "payed", "pay"], "last week"], ["Theo ___ me a funny story yesterday.", ["told", "telled", "tells"], "yesterday"], ["They have just ___ their old car.", ["sold", "selled", "sell"], "have just"], ["Have you ever ___ this song?", ["heard", "heared", "hear"], "Have … ever"]]}, {"t": "ought / aught", "p": "ABB", "tip": "後兩個一樣", "g": [{"s": "", "v": ["buy|bought|bought|買", "bring|brought|brought|帶來", "think|thought|thought|想", "fight|fought|fought|打架", "catch|caught|caught|抓；趕上", "teach|taught|taught|教"]}], "q": [["I ___ a new bike last Saturday.", ["bought", "buyed", "brought"], "last Saturday"], ["Nora ___ her dog to school yesterday.", ["brought", "bringed", "bought"], "yesterday"], ["Mr. Hale has ___ English for forty years.", ["taught", "teached", "thought"], "has … for"], ["I ___ about you last night.", ["thought", "thinked", "taught"], "last night"], ["The cat has just ___ a mouse.", ["caught", "catched", "catch"], "has just"]]}, {"t": "換一個母音", "p": "ABB", "tip": "後兩個一樣", "g": [{"s": "→ u", "v": ["dig|dug|dug|挖", "hang|hung|hung|掛", "stick|stuck|stuck|黏；刺"]}, {"s": "→ oo / ou / o", "v": ["stand|stood|stood|站", "understand|understood|understood|了解", "find|found|found|找到", "hold|held|held|握；舉辦", "sit|sat|sat|坐", "win|won|won|贏", "shoot|shot|shot|射擊", "shine|shone|shone|照耀", "lose|lost|lost|遺失；輸"]}], "q": [["Our team ___ the game last Friday.", ["won", "winned", "win"], "last Friday"], ["I ___ my keys yesterday.", ["lost", "losed", "lose"], "yesterday"], ["Theo ___ next to me in class yesterday.", ["sat", "sitted", "sit"], "yesterday"], ["Have you ___ your phone yet?", ["found", "finded", "find"], "Have … yet"], ["I have finally ___ this lesson.", ["understood", "understanded", "understand"], "have finally"]]}, {"t": "i → a → u", "p": "ABC", "tip": "三個都不同", "g": [{"s": "", "v": ["begin|began|begun|開始", "drink|drank|drunk|喝", "ring|rang|rung|（鈴）響", "sing|sang|sung|唱", "swim|swam|swum|游泳"]}], "q": [["The class ___ at 8:00 this morning.", ["began", "begun", "begined"], "this morning"], ["Nora ___ a song at the party last night.", ["sang", "sung", "singed"], "last night"], ["I have never ___ in the sea.", ["swum", "swam", "swimmed"], "have never"], ["Theo ___ two glasses of milk yesterday.", ["drank", "drunk", "drinked"], "yesterday"], ["The bell has already ___.", ["rung", "rang", "ringed"], "has already"]]}, {"t": "→ ew → own", "p": "ABC", "tip": "三個都不同", "g": [{"s": "", "v": ["blow|blew|blown|吹", "grow|grew|grown|成長；種", "know|knew|known|知道", "throw|threw|thrown|丟", "fly|flew|flown|飛", "draw|drew|drawn|畫", "show|showed|shown|給…看"]}], "q": [["I ___ the answer yesterday.", ["knew", "known", "knowed"], "yesterday"], ["The wind ___ hard last night.", ["blew", "blown", "blowed"], "last night"], ["Theo has ___ a lot this year.", ["grown", "grew", "growed"], "has … this year"], ["Nora ___ a cat in art class last Monday.", ["drew", "drawn", "drawed"], "last Monday"], ["Have you ever ___ in a plane?", ["flown", "flew", "flied"], "Have … ever"]]}, {"t": "原形 + n / en", "p": "ABC", "tip": "三個都不同", "g": [{"s": "", "v": ["eat|ate|eaten|吃", "fall|fell|fallen|跌倒；落下", "give|gave|given|給", "forgive|forgave|forgiven|原諒", "see|saw|seen|看見", "take|took|taken|拿；搭乘", "shake|shook|shaken|搖", "drive|drove|driven|開車", "ride|rode|ridden|騎", "write|wrote|written|寫", "rise|rose|risen|升起", "hide|hid|hidden|躲藏", "bite|bit|bitten|咬", "beat|beat|beaten|打敗"]}], "q": [["I ___ two eggs this morning.", ["ate", "eaten", "eated"], "this morning"], ["Have you ever ___ a real panda?", ["seen", "saw", "seed"], "Have … ever"], ["Theo ___ off his bike yesterday.", ["fell", "fallen", "falled"], "yesterday"], ["Mom has just ___ me a new watch.", ["given", "gave", "gived"], "has just"], ["Nora ___ a letter to her grandma last week.", ["wrote", "written", "writed"], "last week"]]}, {"t": "過去式 + n / en", "p": "ABC", "tip": "三個都不同", "g": [{"s": "", "v": ["break|broke|broken|打破", "choose|chose|chosen|選擇", "speak|spoke|spoken|說（語言）", "steal|stole|stolen|偷", "wake|woke|woken|醒來", "freeze|froze|frozen|結冰", "forget|forgot|forgotten|忘記", "get|got|got / gotten|得到", "wear|wore|worn|穿；戴"]}], "q": [["Theo ___ the window yesterday.", ["broke", "broken", "breaked"], "yesterday"], ["Oh no! I have ___ my homework again.", ["forgotten", "forgot", "forgetted"], "have … again"], ["She ___ English with the new student this morning.", ["spoke", "spoken", "speaked"], "this morning"], ["Someone has ___ my bike!", ["stolen", "stole", "stealed"], "has (結果：車不見了)"], ["I ___ up at six this morning.", ["woke", "woken", "waked"], "this morning"]]}];
-Object.assign(CODES, JSON.parse(decodeURIComponent(atob('JTdCJTIydjMtMSUyMiUzQSUyMCU1QiUyMiVGMCU5RiU5MCVBNyUyMiUyQyUyMCUyMiVFNCVCQyU4MSVFOSVCNSU5RCUyMiUyQyUyMCUyMnBlbmd1aW4lMjIlNUQlMkMlMjAlMjJ2My0yJTIyJTNBJTIwJTVCJTIyJUYwJTlGJTkwJUJDJTIyJTJDJTIwJTIyJUU3JTg2JThBJUU4JUIyJTkzJTIyJTJDJTIwJTIycGFuZGElMjIlNUQlMkMlMjAlMjJ2My0zJTIyJTNBJTIwJTVCJTIyJUYwJTlGJTkwJThCJTIyJTJDJTIwJTIyJUU5JUFGJUE4JUU5JUFEJTlBJTIyJTJDJTIwJTIyd2hhbGUlMjIlNUQlMkMlMjAlMjJ2My00JTIyJTNBJTIwJTVCJTIyJUYwJTlGJUE2JTkyJTIyJTJDJTIwJTIyJUU5JTk1JUI3JUU5JUEwJUI4JUU5JUI5JUJGJTIyJTJDJTIwJTIyZ2lyYWZmZSUyMiU1RCUyQyUyMCUyMnYzLTUlMjIlM0ElMjAlNUIlMjIlRjAlOUYlQTYlOTUlMjIlMkMlMjAlMjIlRTYlODElOTAlRTklQkUlOEQlMjIlMkMlMjAlMjJkaW5vc2F1ciUyMiU1RCUyQyUyMCUyMnYzLTYlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOUElOTclMjIlMkMlMjAlMjIlRTYlQjElQkQlRTglQkIlOEElMjIlMkMlMjAlMjJjYXIlMjIlNUQlMkMlMjAlMjJ2My03JTIyJTNBJTIwJTVCJTIyJUUyJTk4JTgyJUVGJUI4JThGJTIyJTJDJTIwJTIyJUU5JTlCJUE4JUU1JTgyJTk4JTIyJTJDJTIwJTIydW1icmVsbGElMjIlNUQlMkMlMjAlMjJ2My04JTIyJTNBJTIwJTVCJTIyJUUyJTlDJThGJUVGJUI4JThGJTIyJTJDJTIwJTIyJUU5JTg5JTlCJUU3JUFEJTg2JTIyJTJDJTIwJTIycGVuY2lsJTIyJTVEJTJDJTIwJTIydjMtOSUyMiUzQSUyMCU1QiUyMiVGMCU5RiVBNCU5NiUyMiUyQyUyMCUyMiVFNiVBOSU5RiVFNSU5OSVBOCVFNCVCQSVCQSUyMiUyQyUyMCUyMnJvYm90JTIyJTVEJTJDJTIwJTIydjMtMTAlMjIlM0ElMjAlNUIlMjIlRTIlQUQlOTAlMjIlMkMlMjAlMjIlRTYlOTglOUYlRTYlOTglOUYlMjIlMkMlMjAlMjJzdGFyJTIyJTVEJTJDJTIwJTIydjMtMTElMjIlM0ElMjAlNUIlMjIlRTIlOTglODElRUYlQjglOEYlMjIlMkMlMjAlMjIlRTklOUIlQjIlRTYlOUMlQjUlMjIlMkMlMjAlMjJjbG91ZCUyMiU1RCUyQyUyMCUyMnYzLWZpbmFsJTIyJTNBJTIwJTVCJTIyJUYwJTlGJThFJUE5JTIyJTJDJTIwJTIyJUU1JUI4JUJEJUU1JUFEJTkwJTIyJTJDJTIwJTIyaGF0JTIyJTVEJTdE'))));
+Object.assign(CODES, JSON.parse(decodeURIComponent(atob('JTdCJTIydjMtMSUyMiUzQSUyMCU1QiUyMiVGMCU5RiU5MiVBMSUyMiUyQyUyMCUyMiVFOCVCNyVBRiVFNyU4NyU4OCUyMiUyQyUyMCUyMnN0cmVldCUyMGxhbXAlMjIlNUQlMkMlMjAlMjJ2My0yJTIyJTNBJTIwJTVCJTIyJUYwJTlGJTkzJUFFJTIyJTJDJTIwJTIyJUU5JTgzJUI1JUU3JUFEJTkyJTIyJTJDJTIwJTIybWFpbGJveCUyMiU1RCUyQyUyMCUyMnYzLTMlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOUElOEYlMjIlMkMlMjAlMjIlRTUlODUlQUMlRTglQkIlOEElRTclQUIlOTklMjIlMkMlMjAlMjJidXMlMjBzdG9wJTIyJTVEJTJDJTIwJTIydjMtNCUyMiUzQSUyMCU1QiUyMiVGMCU5RiU4QyVCQiUyMiUyQyUyMCUyMiVFOCU4QSVCMSVFNSU5QyU5MiUyMiUyQyUyMCUyMmdhcmRlbiUyMiU1RCUyQyUyMCUyMnYzLTUlMjIlM0ElMjAlNUIlMjIlRTIlOUIlQkElMjIlMkMlMjAlMjIlRTUlQjglQjMlRTclQUYlQjclMjIlMkMlMjAlMjJ0ZW50JTIyJTVEJTJDJTIwJTIydjMtNiUyMiUzQSUyMCU1QiUyMiVGMCU5RiU5QSVCMiUyMiUyQyUyMCUyMiVFOCU4NSVCMyVFOCVCOCU4RiVFOCVCQiU4QSUyMiUyQyUyMCUyMmJpa2UlMjIlNUQlMkMlMjAlMjJ2My03JTIyJTNBJTIwJTVCJTIyJUYwJTlGJThFJUEwJTIyJTJDJTIwJTIyJUU2JTk3JThCJUU4JUJEJTg5JUU2JTlDJUE4JUU5JUE2JUFDJTIyJTJDJTIwJTIybWVycnktZ28tcm91bmQlMjIlNUQlMkMlMjAlMjJ2My04JTIyJTNBJTIwJTVCJTIyJUUyJTlCJUI1JTIyJTJDJTIwJTIyJUU1JUI4JTg2JUU4JTg4JUI5JTIyJTJDJTIwJTIyc2FpbGJvYXQlMjIlNUQlMkMlMjAlMjJ2My05JTIyJTNBJTIwJTVCJTIyJUYwJTlGJThGJUIwJTIyJTJDJTIwJTIyJUU1JTlGJThFJUU1JUEwJUExJTIyJTJDJTIwJTIyY2FzdGxlJTIyJTVEJTJDJTIwJTIydjMtMTAlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOTclQkYlMjIlMkMlMjAlMjIlRTclOUYlQjMlRTUlODMlOEYlMjIlMkMlMjAlMjJzdGF0dWUlMjIlNUQlMkMlMjAlMjJ2My0xMSUyMiUzQSUyMCU1QiUyMiVGMCU5RiU4RiU5NiVFRiVCOCU4RiUyMiUyQyUyMCUyMiVFNiVCNSVCNyVFNyU4MSU5OCUyMiUyQyUyMCUyMmJlYWNoJTIyJTVEJTJDJTIwJTIydjMtZmluYWwlMjIlM0ElMjAlNUIlMjIlRjAlOUYlOEYlODYlMjIlMkMlMjAlMjIlRTclOEQlOEUlRTclOUIlODMlMjIlMkMlMjAlMjJ0cm9waHklMjIlNUQlN0Q='))));
 const V3N = V3.length;
 const v3Done = n => !!S.codes[`v3-${n}`];
 function v3Next() {
@@ -1594,7 +1625,7 @@ function v3Quiz(box, Q, head, onEnd) {
     };
     box.querySelector('#reveal').onclick = () => { tried = true; peeks++; done(true); };
     box.querySelectorAll('.opt').forEach(b => b.onclick = () => {
-      const ok = +b.dataset.i === ans; if (!tried) { tried = true; if (ok) { right++; toast('+1 ⭐'); } }
+      const ok = +b.dataset.i === ans; if (!tried) { tried = true; if (ok) { right++; toast('+1 🪙'); } }
       b.classList.add(ok ? 'right' : 'wrong'); b.disabled = true;
       if (ok) done(false); else box.querySelector('#tfb').innerHTML = `<div class="feedback bad"><b>Not that one.</b><span class="why">${why}</span></div>`;
     });
@@ -1670,7 +1701,7 @@ function v3Level(n) {
   const quiz = () => {
     stepOn(3); window.scrollTo(0, 0);
     v3Quiz(box, L.q, '✏️ 小測驗', (right, peeks) => {
-      const earned = peeks <= LESSON_PEEKS; stepOn(earned ? 5 : 4);
+      const earned = peeks <= LESSON_PEEKS; stepOn(earned ? 5 : 4); S.cbest[`v3-L${n}`] = Math.max(S.cbest[`v3-L${n}`] || 0, right); save();
       if (earned) { S.codes[`v3-${n}`] = true; save(); }
       const t = v3Next();
       box.innerHTML = `<div class="done-card"><div class="duo">${avatar('nora', 70, earned ? 'cheer' : 'smile')}${avatar('theo', 70, earned ? 'cheer' : 'smile')}</div>
@@ -1690,7 +1721,7 @@ function v3Final() {
   wire(app);
   const box = document.getElementById('v3box');
   v3Quiz(box, Q, '🏁 第', (right, peeks) => {
-    const earned = right === Q.length && peeks === 0; if (earned) { S.codes['v3-final'] = true; save(); }
+    const earned = right === Q.length && peeks === 0; S.cbest['v3-final'] = Math.max(S.cbest['v3-final'] || 0, right); if (earned) S.codes['v3-final'] = true; save();
     box.innerHTML = `<div class="done-card"><div class="duo">${avatar('nora', 70, earned ? 'cheer' : 'smile')}${avatar('theo', 70, earned ? 'cheer' : 'smile')}</div>
       <h2>${right} / ${Q.length}</h2></div>
       ${earned ? codeCard('v3-final', '動詞三態・綜合測驗') : `<div class="nocode">🔒 要 10 題都第一次就答對（不能看答案）才拿得到密碼。再挑戰一次！</div>`}
@@ -1698,6 +1729,61 @@ function v3Final() {
       <button class="${earned ? 'ghost-btn' : 'go-btn'}" style="--tc:var(--v3)" id="again">⟲ 再挑戰一次</button></div>`;
     wire(box); box.querySelector('#again').onclick = v3Final; if (earned) confetti(26); window.scrollTo(0, 0);
   });
+}
+
+// ───────── Rewards (added): town map from code items + coins for snacks ─────────
+// Teacher can change these two lines: the snack price list and the PIN used to spend coins.
+const REWARDS = [{ e: '🍬', t: '小點心', c: 60 }, { e: '🧃', t: '飲料', c: 150 }, { e: '🍦', t: '大獎：冰淇淋或點心', c: 300 }];
+const TEACHER_PIN = '1207';
+S.cbest = S.cbest || {}; S.spent = S.spent || 0; S.redeem = S.redeem || [];
+const MAP_SECTIONS = () => [
+  ...CH.slice(0, 4).map(c => ({ id: c.id, name: c.zh, keys: CHUNKS[c.id].map((_, n) => [`${c.id}-L${n + 1}`, `${c.id}-${n + 1}`]) })),
+  { id: 'v3', name: '動詞三態', keys: [...V3.map((_, n) => [`v3-${n + 1}`, `v3-${n + 1}`]), ['v3-final', 'v3-final']] },
+  ...CH.slice(4).map(c => ({ id: c.id, name: c.zh, keys: CHUNKS[c.id].map((_, n) => [`${c.id}-L${n + 1}`, `${c.id}-${n + 1}`]) })),
+  { id: 'boss', name: '總複習', keys: [['boss', 'boss']] }];
+const MAPKEYS = () => MAP_SECTIONS().flatMap(x => x.keys);
+const mapGot = () => MAPKEYS().filter(([k]) => S.codes[k]).length;
+const CLUES = { pres: '鐘樓的大鐘每天早上 7 點都會響。', prog: '今晚，有一道小燈光正在往鐘樓移動……', past: '1925 年，一位叫 Ada 的學生突然消失了。', fut: 'Ada 留下一句話：「我會回來的。」',
+  v3: '鐘樓牆上刻著：go → went → gone。', pp: 'Mr. Hale 已經在 Ashwood 守了 40 年的秘密。', pastpf: 'Nora 到鐘樓的時候，有人早就把鐘停在 12:07。', boss: '真相大白：守住秘密的，就是 Mr. Hale！' };
+function coinEarned() {
+  const best = Object.values(S.cbest).reduce((a, b) => a + b, 0);
+  return best + mapGot() * 5 + totalStars() * 2 + (S.boss || 0);
+}
+const coinBal = () => Math.max(0, coinEarned() - S.spent);
+function mapPage() {
+  const secs = MAP_SECTIONS(), all = MAPKEYS(), got = mapGot(), done = got === all.length;
+  app.innerHTML = topBar() + `<section class="chead"><div class="crumbs"><button class="back" data-go="home">← All units 全部單元</button></div>
+    <h2>🗺️ 我的小鎮地圖</h2><p class="muted" style="margin:0">每學完一課就得到一個地點，放進小鎮。集滿一區就解開一條鐘樓線索。（${got} / ${all.length}）</p></section>
+    <div class="town">${secs.map(sec => { const full = sec.keys.every(([k]) => S.codes[k]);
+      return `<section class="tz ${full ? 'full' : ''}" style="--tc:${sec.id === 'v3' ? 'var(--v3)' : sec.id === 'boss' ? 'var(--ink)' : color(sec.id)}"><h3>${sec.name}</h3>
+        <div class="tz-items">${sec.keys.map(([k, ck]) => S.codes[k] ? `<span class="ti got"><b>${CODES[ck][0]}</b><small>${CODES[ck][1]}</small></span>` : `<span class="ti"><b>?</b><small>　</small></span>`).join('')}</div>
+        <p class="clue">${full ? `🔎 線索：${CLUES[sec.id]}` : '🔒 集滿這一區，解開一條線索'}</p></section>`; }).join('')}</div>
+    <section class="card cert-box">${done ? `<div class="cert" id="cert"><img src="${LOGO}" alt=""><div class="ck">良立文教・時態偵探證書</div>
+        <h2>${esc(S.name || '小偵探')}</h2><p>破解了 Ashwood 鐘樓之謎，學會六大時態和動詞三態，正式成為</p><div class="cbig">🕵️ 時態偵探</div><p class="muted">${new Date().toLocaleDateString('zh-TW')}</p></div>
+        <div class="row-btns" style="justify-content:center"><input id="nm" class="nm" placeholder="寫上你的名字" value="${esc(S.name || '')}"><button class="ghost-btn" id="nmok">✏️ 放上證書</button></div><p class="muted" style="text-align:center">可以截圖給爸爸媽媽和老師看！</p>`
+      : `<p style="text-align:center;margin:0">🏆 集滿全部 ${all.length} 個地點，就會拿到<b>時態偵探證書</b>。</p>`}</section>`;
+  wire(app);
+  const ok = document.getElementById('nmok'); if (ok) ok.onclick = () => { S.name = document.getElementById('nm').value.trim().slice(0, 20); save(); mapPage(); };
+}
+function shopPage() {
+  const bal = coinBal();
+  app.innerHTML = topBar() + `<section class="chead"><div class="crumbs"><button class="back" data-go="home">← All units 全部單元</button></div>
+    <h2>🪙 金幣兌換</h2><p class="muted" style="margin:0">第一次就答對 +1、拿到一個地點 +5、綜合練習每顆星 +2。重玩只算最好的一次。</p></section>
+    <section class="card" style="text-align:center"><div class="coinbig">🪙 ${bal}</div><p class="muted" style="margin:0">目前金幣（共賺了 ${coinEarned()}，已兌換 ${S.spent}）</p></section>
+    <div class="shop">${REWARDS.map((r, i) => `<div class="sh ${bal >= r.c ? 'can' : ''}"><span class="se">${r.e}</span><b>${r.t}</b><span class="sc">🪙 ${r.c}</span>
+      <button class="go-btn" style="--tc:#e3a008" data-i="${i}" ${bal >= r.c ? '' : 'disabled'}>${bal >= r.c ? '拿給老師兌換' : `還差 ${r.c - bal}`}</button></div>`).join('')}</div>
+    <section class="card" id="pinbox" hidden><b id="pinwhat"></b><p class="muted" style="margin:4px 0">請老師輸入兌換密碼（小朋友不用輸入）</p>
+      <div class="row-btns"><input id="pin" class="nm" type="password" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="老師密碼"><button class="go-btn" id="pinok" style="--tc:#e3a008">確認兌換</button></div><div id="pinmsg"></div></section>
+    ${S.redeem.length ? `<section class="card"><b>兌換紀錄</b><ul style="margin:6px 0 0;padding-left:20px">${S.redeem.slice().reverse().map(x => `<li>${x.d}　${x.e} ${x.t}　−${x.c} 🪙</li>`).join('')}</ul></section>` : ''}`;
+  wire(app);
+  let pick = null; const box = document.getElementById('pinbox');
+  app.querySelectorAll('.sh .go-btn').forEach(b => b.onclick = () => { pick = REWARDS[+b.dataset.i]; box.hidden = false; document.getElementById('pinwhat').textContent = `兌換：${pick.e} ${pick.t}（🪙 ${pick.c}）`; document.getElementById('pin').value = ''; document.getElementById('pin').focus(); });
+  document.getElementById('pinok').onclick = () => {
+    if (!pick) return; const v = document.getElementById('pin').value.trim();
+    if (v !== TEACHER_PIN) { document.getElementById('pinmsg').innerHTML = '<div class="feedback bad"><b>密碼不對</b></div>'; return; }
+    if (coinBal() < pick.c) return;
+    S.spent += pick.c; S.redeem.push({ d: new Date().toLocaleDateString('zh-TW'), e: pick.e, t: pick.t, c: pick.c }); save(); confetti(20); toast(`${pick.e} 兌換成功！`); shopPage();
+  };
 }
 
 // ───────── Bridge stop between Unit 4 and Unit 5: when do we use p.p.? (added) ─────────
@@ -1831,7 +1917,7 @@ function topBar() {
   return `<div class="top"><button class="back brand" data-go="home" aria-label="Home">
       <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="17" cy="17" r="11" fill="none" stroke="var(--ink)" stroke-width="3.5"/><line x1="25" y1="25" x2="35" y2="35" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/><line x1="17" y1="17" x2="17" y2="10" stroke="var(--pp)" stroke-width="2.5" stroke-linecap="round"/><line x1="17" y1="17" x2="22" y2="19" stroke="var(--pp)" stroke-width="2.5" stroke-linecap="round"/></svg>
       <b>Time Detective</b></button>
-    <div class="toggles"><span class="chip-btn" title="Total stars">⭐ ${totalStars()}</span><button class="chip-btn" id="voiceBtn" aria-label="Reading voice">🔊</button><button class="chip-btn" data-go="casebook">Casebook</button><button class="chip-btn" id="zhBtn" aria-pressed="${!!S.zh}">中文對照</button></div></div>`;
+    <div class="toggles"><button class="chip-btn" data-go="map" title="Town map">🗺️ ${mapGot()}/${MAPKEYS().length}</button><button class="chip-btn" data-go="shop" title="Coins">🪙 ${coinBal()}</button><button class="chip-btn" id="voiceBtn" aria-label="Reading voice">🔊</button><button class="chip-btn" data-go="casebook">Casebook</button><button class="chip-btn" id="zhBtn" aria-pressed="${!!S.zh}">中文對照</button></div></div>`;
 }
 function wire(root) {
   root.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
@@ -2313,6 +2399,8 @@ window.addEventListener('hashchange', render);
 function render() {
   const id = location.hash.slice(1);
   if (id === 'casebook') return casebook();
+  if (id === 'map') return mapPage();
+  if (id === 'shop') return shopPage();
   if (id === 'ppx' || id === 'v3a') return v3IntroPage(id);
   if (id === 'v3') return v3Unit();
   if (id === 'v3-final') return v3Final();
@@ -2352,7 +2440,7 @@ function home() {
     <p class="brand-tag">良立文教的小偵探 Nora 和 Theo<br>要帶你去鐘樓冒險，破解時態之謎！🔍</p>
     <p class="brand-promo">✏️ 良立文教老師精心為孩子設計<br>配合課堂講義，把六大時態做<b>邏輯式統整</b></p>
     <button class="go-btn" data-go="${nt.go}" style="--tc:${nt.c ? color(nt.c.id) : 'var(--ink)'}">▶ ${started ? 'Continue' : 'Start'} <small>${started ? '繼續' : '開始'}：${nt.label}<br>${nt.zh}</small></button>
-    <div class="status"><span>${r[1]} ${r[2]}</span><span>⭐ ${totalStars()} / 54</span><span>🔑 ${codesGot} / ${CH.reduce((a, c) => a + CHUNKS[c.id].length, 0) + 1 + V3N + 1} codes 密碼</span></div>
+    <div class="status"><button class="chip-btn" data-go="map">🗺️ 小鎮地圖 ${mapGot()} / ${MAPKEYS().length}</button><button class="chip-btn" data-go="shop">🪙 金幣 ${coinBal()}</button><span>${r[1]} ${r[2]}</span></div>
   </section>
   <h2 class="pick">Pick a unit <span>選一個單元</span></h2>
   <div class="tiles">${CH.map((c, i) => {
@@ -2373,18 +2461,33 @@ function home() {
       <span class="tile-codes">${S.codes.boss ? `<span class="got">${CODES.boss[0]}</span>` : '<span>🔒</span>'}</span>
       <span class="tile-foot"><span>${S.boss != null ? `${S.boss} / 10` : '10 gaps'}</span><span class="tile-go">Play ▶</span></span></button>
   </div>
+  ${myFile()}
   <details class="more"><summary>🏅 My badges 我的徽章</summary>${badgePanel()}</details>
   <details class="more"><summary>❓ How to play 怎麼玩</summary>
   <div class="how"><div><b>1 · Lessons</b>Watch one short animation, then practise it right away.</div><div><b>2 · Read</b>Read or listen to a case, then spot the verbs.</div><div><b>3 · Crack it</b>Match the verbs to a picture of time.</div><div><b>4 · Use it</b>Trust your ear, then fix broken sentences.</div></div>
-    <p class="muted" style="margin-top:8px">Each unit = 2–3 lessons + 3 mixed practices. Finish a lesson to get a 🔑 code word. Tell it to your parent or teacher.<span class="zh-always">每個單元 = 2～3 個小課 + 3 個綜合練習。每學完一個小課會得到一個 🔑 密碼，告訴爸媽或老師。</span></p></details>
+    <p class="muted" style="margin-top:8px">Each unit = 2–3 lessons + 3 mixed practices. Finish a lesson to get a new place for your town map 🗺️. Earn 🪙 coins and trade them with your teacher for snacks.<span class="zh-always">每個單元 = 2～3 個小課 + 3 個綜合練習。每學完一個小課會得到一個小鎮地點，告訴爸媽或老師。賺到的 🪙 金幣可以找老師換點心和飲料。</span></p></details>
   <details class="more"><summary>👪 For parents and teachers 給家長和老師</summary><div class="parent"><div class="lb-brand" style="justify-content:flex-start"><img src="${LOGO}" alt=""><b>良立文教</b></div>
     <p style="margin:0">這是良立文教老師精心為孩子準備的時態練習，配合課堂講義，把六大時態做邏輯式的統整：每個規則都用動畫一步一步演出來，學一小段、馬上練一小段。</p>
     <ul><li>每個單元分成 2～3 個小課：看一段動畫 → 馬上做 5 題只考這一段的練習 → 拿到一個 🔑 密碼 → 再進下一課。</li>
-    <li>每個密碼代表孩子完成了哪一個小課，請對照《家長驗收表》確認。</li>
+    <li>每完成一個小課，孩子會得到一個小鎮地點（例如 🚦 紅綠燈），請問孩子拿到什麼，再對照《家長驗收表》確認。</li>
     <li>小課全部完成後，有 3 個「綜合練習」把整個單元混在一起練，拿星星和徽章（加分挑戰，不是必做）。</li>
     <li>建議節奏：上完課當天學完小課，之後每天玩一個案件（約 10–15 分鐘）。進度存在這台裝置的瀏覽器裡。</li></ul></div></details>
   <footer class="brand-foot"><img src="${LOGO}" alt=""><span>© 良立文教 英文教室・時態偵探</span></footer>`;
   wire(app);
+  const ok = document.getElementById('mfok'); if (ok) ok.onclick = () => { S.name = document.getElementById('mfnm').value.trim().slice(0, 20); save(); home(); };
+}
+// Home bottom: the child's own summary — name, places collected, coins, next snack.
+function myFile() {
+  const all = MAPKEYS(), have = all.filter(([k]) => S.codes[k]), bal = coinBal(), next = REWARDS.find(r => r.c > bal), can = REWARDS.filter(r => r.c <= bal);
+  return `<section class="myfile"><h2>🕵️ 我的偵探檔案</h2>
+    <div class="mf-name">${S.name ? `<b>${esc(S.name)}</b> 偵探<button class="mf-edit" id="mfedit" onclick="this.parentNode.classList.add('ed')">✏️</button>` : ''}<span class="mf-in"><input id="mfnm" class="nm" placeholder="寫上你的名字" value="${esc(S.name || '')}"><button class="ghost-btn" id="mfok">好了</button></span></div>
+    <div class="mf-grid">
+      <button class="mf-box" data-go="map"><span class="mf-k">🗺️ 我的小鎮</span><span class="mf-v">${have.length} <small>/ ${all.length} 個地點</small></span>
+        <span class="mf-items">${have.length ? have.map(([k, ck]) => `<span title="${CODES[ck][1]}">${CODES[ck][0]}<small>${CODES[ck][1]}</small></span>`).join('') : '<em>學完第一課，就會得到第一個地點！</em>'}</span></button>
+      <button class="mf-box coin" data-go="shop"><span class="mf-k">🪙 我的金幣</span><span class="mf-v">${bal}</span>
+        <span class="mf-next">${next ? `再 <b>${next.c - bal}</b> 枚就能換 ${next.e} ${next.t}` : '🎉 你已經可以換大獎了！'}${can.length ? `<br>現在可以換：${can.map(r => r.e + ' ' + r.t).join('、')}` : ''}</span>
+        ${next ? `<span class="mf-bar"><i style="width:${Math.round(bal / next.c * 100)}%"></i></span>` : ''}</button>
+    </div></section>`;
 }
 
 function casebook() {
