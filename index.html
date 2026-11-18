@@ -351,9 +351,9 @@ body.show-zh span.zh { display: inline; }
 .pm-cell.here, .pm-cell.key.here { background: var(--tc) !important; border-color: var(--tc) !important; color: #fff !important; }
 @media (max-width: 700px) { .pmap-target { grid-column: 1 / -1; } }
 /* 良立文教 branding */
-.brand { display: flex; align-items: center; justify-content: center; gap: 10px; }
-.brand img { width: 52px; height: 52px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,.18); background: #fff; }
-.brand b { font-family: var(--display); font-size: 20px; letter-spacing: .14em; }
+.lb-brand { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.lb-brand img { width: 52px; height: 52px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,.18); background: #fff; }
+.lb-brand b { font-family: var(--display); font-size: 20px; letter-spacing: .14em; }
 .brand-tag { font-weight: 800; font-size: 18px; line-height: 1.5; color: var(--ink); margin: 0; }
 .brand-promo { margin: 0; background: #fff8e1; border: 2px dashed #e3a008; border-radius: 14px; padding: 8px 16px; font-size: 15.5px; line-height: 1.6; color: #7a5600; font-weight: 700; }
 .brand-promo b { color: #b45309; font-size: 17px; }
@@ -1824,7 +1824,7 @@ function home() {
   const r = rankOf(totalStars());
   app.innerHTML = topBar() + `
   <section class="start">
-    <div class="brand"><img src="${LOGO}" alt="良立文教 logo"><b>良立文教</b></div>
+    <div class="lb-brand"><img src="${LOGO}" alt="良立文教 logo"><b>良立文教</b></div>
     <div class="duo">${avatar('nora', 104)}${avatar('theo', 104)}</div>
     <h1>Time Detective<span>時態偵探</span></h1>
     <p class="brand-tag">良立文教的小偵探 Nora 和 Theo<br>要帶你去鐘樓冒險，破解時態之謎！🔍</p>
@@ -1851,7 +1851,7 @@ function home() {
   <details class="more"><summary>❓ How to play 怎麼玩</summary>
   <div class="how"><div><b>1 · Lessons</b>Watch one short animation, then practise it right away.</div><div><b>2 · Read</b>Read or listen to a case, then spot the verbs.</div><div><b>3 · Crack it</b>Match the verbs to a picture of time.</div><div><b>4 · Use it</b>Trust your ear, then fix broken sentences.</div></div>
     <p class="muted" style="margin-top:8px">Each unit = 2–3 lessons + 3 mixed practices. Finish a lesson to get a 🔑 code word. Tell it to your parent or teacher.<span class="zh-always">每個單元 = 2～3 個小課 + 3 個綜合練習。每學完一個小課會得到一個 🔑 密碼，告訴爸媽或老師。</span></p></details>
-  <details class="more"><summary>👪 For parents and teachers 給家長和老師</summary><div class="parent"><div class="brand" style="justify-content:flex-start"><img src="${LOGO}" alt=""><b>良立文教</b></div>
+  <details class="more"><summary>👪 For parents and teachers 給家長和老師</summary><div class="parent"><div class="lb-brand" style="justify-content:flex-start"><img src="${LOGO}" alt=""><b>良立文教</b></div>
     <p style="margin:0">這是良立文教老師精心為孩子準備的時態練習，配合課堂講義，把六大時態做邏輯式的統整：每個規則都用動畫一步一步演出來，學一小段、馬上練一小段。</p>
     <ul><li>每個單元分成 2～3 個小課：看一段動畫 → 馬上做 5 題只考這一段的練習 → 拿到一個 🔑 密碼 → 再進下一課。</li>
     <li>每個密碼代表孩子完成了哪一個小課，請對照《家長驗收表》確認。</li>
