@@ -285,7 +285,8 @@ body.show-zh span.zh { display: inline; }
 .chain2 .mrow:not(.on) .ck { opacity: .75; }
 .chain2 .mj { font-size: 34px; color: var(--tc); }
 .chain2 .mbox { display: grid; gap: 2px; text-align: center; padding: 8px 14px; background: var(--tc); border-color: var(--tc); box-shadow: 0 0 0 5px color-mix(in srgb, var(--tc) 25%, transparent); }
-.chain2 .mbox .rule { font-size: 24px; white-space: nowrap; } .chain2 .mbox small { color: #fff; opacity: .9; font-size: 13px; white-space: normal; }
+.chain2 .mbox .rule { font-size: 16px; white-space: nowrap; opacity: .9; } .chain2 .mbox .mform { color: #fff; font-size: 26px; font-family: var(--display); white-space: nowrap; }
+.chain2 .every { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; } .chain2 .every .ck.me { border-color: var(--tc); color: var(--tc); transform: scale(1.1); }
 .chain2.merge .mj { transform: rotate(90deg); line-height: 1; }
 .chain2 { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; font-size: 18px; }
 .chain2 .ck { background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 4px 10px; font-weight: 700; white-space: nowrap; }
@@ -1039,7 +1040,7 @@ const DEMOS = {
       ['see → [see>saw]', '不規則：整個變身', 'see → saw', ':⏪', '', 'irr'],
       ['find → [find>found]', '不規則：整個變身', 'find → found', ':⏪', '', 'irr'] ] },
     { tab: '③ 大家都一樣', steps: [
-      ['@1Nora walked home +yesterday.', '一個人 → walked（不加 s）', 'she walked', 'n:⏪', '過去式不分人', 'all'],
+      ['@1Nora walked home +yesterday.', 'Nora → walked', 'she walked', 'n:⏪', '過去式不分人', 'all'],
       ['@mThey walked home +yesterday.', '很多人 → 也是 walked', 'they walked', 'nt:⏪', '過去式不分人', 'all'],
       ['@mI went home +yesterday.', 'I → 也是 went', 'I went', 'n:⏪', '過去式不分人', 'all'] ] },
     { tab: '④ did', steps: [
@@ -1052,7 +1053,8 @@ const DEMOS = {
     { tab: '① will + 原形', steps: [
       ['@1Nora +will help Theo +tomorrow.', 'will + 原形動詞', 'will help', 'n:🔮', 'will 不分人', 'will'],
       ['@mThey +will help Theo +tomorrow.', '很多人 → 也是 will', 'they will help', 'nt:🔮', 'will 不分人', 'all'],
-      ['@1Nora will help[-s] Theo tomorrow.', 'will 後面不能加 s', 'will help (no s)', 'n:🔮', 'will 不分人', 'base'] ] },
+      ['@mI +will help Theo +tomorrow.', 'I → 也是 will', 'I will help', 'n:🔮', 'will 不分人', 'all'],
+      ] },
     { tab: '② won’t / Will?', steps: [
       ['@1Nora [will>won’t] help Theo tomorrow.', '不會 → won’t', 'will not = won’t', 'n:🔮', 'won’t 不分人', 'not'],
       ['+Will @1Nora -will help Theo tomorrow?', 'Will 跳到最前面', 'Will she help?', 'nt:🔮', 'will 不分人', 'q'] ] },
@@ -1092,7 +1094,7 @@ const MAPS = {
     ['✏️ ing', [['ing', '+ ing'], ['e', 'e → ing', 1], ['dbl', 'run → running', 1]], 1], ['❓ not / ?', [['not', 'be + not'], ['q', 'Is / Are … ?', 1]], 2]],
   past: [['⏪ 過去式', [['ed', '+ ed'], ['ied', 'y → ied', 1], ['dbl', 'stop → stopped', 1], ['irr', 'go → went', 1]], 0, 1],
     ['👥 誰', [['all', '大家都一樣']], 2], ['❓ not / ?', [['did', 'did / didn’t + 原形', 1]], 3]],
-  fut: [['🔮 will + 原形', [['will', 'will help', 1], ['base', 'will helps ✗']], 0, 1], ['👥 誰', [['all', '大家都一樣']], 0], ['❓ not / ?', [['not', 'won’t', 1], ['q', 'Will … ?']], 1]],
+  fut: [['🔮 will + 原形', [['will', 'will help', 1]], 0, 1], ['👥 誰', [['all', '大家都一樣']], 0], ['❓ not / ?', [['not', 'won’t', 1], ['q', 'Will … ?']], 1]],
   pp: [['🌉 have / has + 第三態', [['pp', 'go → gone', 1], ['have', 'have'], ['has', 'he・she・it has', 1]], 0, 1], ['⏳ for / since', [['for', 'for / since']], 3]],
   pastpf: [['🕵️ 順序', [['order', '① 先 ② 後']], 0], ['① 先發生 → had + 第三態', [['had', 'had stopped', 1]], 0, 1], ['👥 誰', [['all', '大家都用 had']], 1]],
 };
@@ -1147,11 +1149,11 @@ function mountPlayer(root, secs, onEnd) {
     const SUBJ = { 'you': ['👉', '你', 'you'], 'we': ['🙋🙋', '我們', 'we'], 'nora': ['👧', '女生', 'she'], 'theo': ['👦', '男生', 'he'], 'mr. hale': ['👨', '男生', 'he'], 'nora & theo': ['👧👦', '兩個人', 'they'], 'they': ['👥', '很多人', 'they'], 'i': ['🙋', '我自己', 'I'], 'the clock': ['⏰', '一個東西', 'it'] };
     const info = SUBJ[sw.toLowerCase()];
     const grp = info && ['she', 'he', 'it'].includes(info[2]) ? ['one', '👤 he・she・it'] : ['many', '👥 I・you・we・they'];
-    const MERGE = { '過去式不分人': '現在分兩組（walks / walk）→ 過去只有一種', 'did 不分人': '現在：does / do　→　過去只有 did', 'didn’t 不分人': '現在：doesn’t / don’t　→　過去只有 didn’t', 'will 不分人': '不管是誰：will + 原形', 'won’t 不分人': '不管是誰：won’t + 原形', 'had 不分人': '現在：has / have　→　過去只有 had' };
+    const MERGE = { '過去式不分人': '動詞過去式', 'did 不分人': 'Did … + 原形', 'didn’t 不分人': 'didn’t + 原形', 'will 不分人': 'will + 原形', 'won’t 不分人': 'won’t + 原形', 'had 不分人': 'had + 過去分詞' };
     const merge = info && MERGE[rule];
-    const mine = info ? [`<b>${esc(sw)}</b>`, `${info[0]} ${info[1]}`, `<b class="pron">${info[2]}</b>`, `<span class="g ${grp[0]}">${grp[1]}</span>`] : [];
-    const row = (on, g, lab) => `<div class="mrow ${on ? 'on' : ''}">${on ? mine.map((x, i) => `${i ? `<i style="--c:${i}">→</i>` : ''}<span class="ck" style="--c:${i}">${x}</span>`).join('') : `<span class="ck other" style="--c:4"><span class="g ${g}">${lab}</span></span>`}</div>`;
-    const chain = merge ? `<div class="chain2 merge"><div class="mrows">${row(grp[0] === 'one', 'one', '👤 he・she・it')}${row(grp[0] === 'many', 'many', '👥 I・you・we・they')}</div><i class="mj" style="--c:5">⇒</i><span class="ck mbox" style="--c:6"><b class="rule">${rule}</b><small>${merge}</small></span></div>`
+    const EVERY = [['👧', 'Nora'], ['👦', 'Theo'], ['👥', 'They'], ['🙋', 'I']];
+    const meKey = sw.toLowerCase();
+    const chain = merge ? `<div class="chain2 merge"><div class="every">${EVERY.map(([e, n], c) => `<span class="ck ${n.toLowerCase() === meKey ? 'me' : ''}" style="--c:${c}">${e} ${n}</span>`).join('')}</div><i class="mj" style="--c:4">⇒</i><span class="ck mbox" style="--c:5"><b class="rule">大家都一樣</b><b class="mform">${merge}</b></span></div>`
       : info ? `<div class="chain2">${[`<b>${esc(sw)}</b>`, `${info[0]} ${info[1]}`, `<b class="pron">${info[2]}</b>`, `<span class="g ${grp[0]}">${grp[1]}</span>`, `<b class="rule">${rule || ''}</b>`].map((x, i) => `${i ? `<i style="--c:${i}">→</i>` : ''}<span class="ck" style="--c:${i}">${x}</span>`).join('')}</div>` : '';
     const mm = sent.match(/@m\[?(?:[^>\]\s]*>)?([A-Za-z]+)/), subj = mm ? mm[1].toLowerCase() : '';
     const sym = (sent.includes('@1') ? '<span class="sy one">👤 × 1</span>' : !mm ? '' : subj === 'i' ? '<span class="sy many">🙋 I（我）</span>' : subj === 'you' ? '<span class="sy many">👉 you</span>' : '<span class="sy many">👥 × 2</span>') + (prop ? `<span class="sy prop">${prop}</span>` : '');
@@ -1212,7 +1214,7 @@ const PRACTICE = {
   'past-1': [['Yesterday Nora ___ to school. (walk)', ['walked', 'walks', 'walk'], 'yesterday → + ed'], ['Theo ___ hard last night. (study)', ['studied', 'studyed', 'studies'], '子音 + y → ied'], ['The bus ___ here five minutes ago. (stop)', ['stopped', 'stoped', 'stops'], '重複 p 再加 ed'], ['They ___ soccer last week. (play)', ['played', 'plaied', 'plays'], '母音 + y → 直接加 ed'], ['I ___ the door an hour ago. (open)', ['opened', 'openned', 'opens'], '一般 → + ed']],
   'past-2': [['Nora ___ home early yesterday. (go)', ['went', 'goed', 'goes'], 'go → went'], ['I ___ a ghost last night! (see)', ['saw', 'seed', 'sees'], 'see → saw'], ['Theo ___ a key two days ago. (find)', ['found', 'finded', 'finds'], 'find → found'], ['We ___ pizza last Friday. (eat)', ['ate', 'eated', 'eats'], 'eat → ate'], ['She ___ a letter last week. (write)', ['wrote', 'writed', 'writes'], 'write → wrote']],
   'past-3': [['Theo ___ home yesterday. (walk)', ['walked', 'walkeds', 'walks'], '過去式不分人，不加 s'], ['___ Nora find the key yesterday?', ['Did', 'Does', 'Do'], '過去的問句 → Did'], ['Did you ___ the movie last night? (see)', ['see', 'saw', 'seen'], 'Did 後面 → 原形'], ['They didn’t ___ home last night. (go)', ['go', 'went', 'goes'], 'didn’t 後面 → 原形'], ['She ___ late yesterday. (come)', ['came', 'comes', 'comed'], 'come → came']],
-  'fut-1': [['Nora ___ help you tomorrow.', ['will', 'wills', 'is'], 'will 不分人'], ['Theo will ___ the tower next week. (visit)', ['visit', 'visits', 'visited'], 'will + 原形'], ['They will ___ a party tomorrow. (have)', ['have', 'has', 'had'], 'will + 原形'], ['I ___ call you later.', ['will', 'am', 'did'], 'later → will'], ['It will ___ tomorrow. (rain)', ['rain', 'rains', 'rained'], 'will 後面不加 s']],
+  'fut-1': [['Nora ___ help you tomorrow.', ['will', 'wills', 'is'], '大家都一樣：will'], ['Theo will ___ the tower next week. (visit)', ['visit', 'visits', 'visited'], 'will + 原形'], ['They will ___ a party tomorrow. (have)', ['have', 'has', 'had'], 'will + 原形'], ['I ___ call you later.', ['will', 'am', 'did'], 'later → will'], ['It will ___ tomorrow. (rain)', ['rain', 'rains', 'rained'], '大家都一樣：will + 原形']],
   'fut-2': [['___ Nora come to the party tomorrow?', ['Will', 'Does', 'Is'], '未來的問句 → Will'], ['It ___ rain tomorrow. (不會)', ['won’t', 'willn’t', 'don’t'], 'will not = won’t'], ['Will you ___ me tomorrow? (help)', ['help', 'helps', 'helped'], 'Will 後面 → 原形'], ['Theo ___ be late tomorrow. (不會)', ['won’t', 'doesn’t', 'isn’t'], 'will not = won’t'], ['___ they win the game next week?', ['Will', 'Do', 'Are'], 'Will 跳到前面']],
   'pp-1': [['go → went → ___', ['gone', 'goed', 'went'], 'go 的第三態 = gone'], ['see → saw → ___', ['seen', 'sawed', 'saw'], 'see 的第三態 = seen'], ['eat → ate → ___', ['eaten', 'ated', 'ate'], 'eat 的第三態 = eaten'], ['walk → walked → ___', ['walked', 'walken', 'walk'], '規則動詞：第三態 = 過去式'], ['write → wrote → ___', ['written', 'wrote', 'writed'], 'write 的第三態 = written']],
   'pp-2': [['Theo ___ just seen a ghost!', ['has', 'have'], 'Theo = he → has'], ['I ___ already finished my homework.', ['have', 'has'], 'I → have'], ['Nora has just ___ the key. (find)', ['found', 'find', 'finds'], 'has + 第三態'], ['They have ___ to Japan twice. (be)', ['been', 'be', 'was'], 'be 的第三態 = been'], ['She has never ___ sushi. (eat)', ['eaten', 'ate', 'eat'], 'has + 第三態']],
