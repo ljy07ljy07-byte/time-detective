@@ -1527,9 +1527,12 @@ function runGuide(root, B) {
     if (b.hl) { const pr = root.querySelector('.prompt'); pr.innerHTML = pr.innerHTML.replace(new RegExp(`(^|[^A-Za-z])(${esc(b.hl).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?![A-Za-z])`), '$1<mark class="hs">$2</mark>'); }
     list.insertAdjacentHTML('beforeend', `<div class="hl">${b.say}${b.groups ? `<div class="hgs">${b.groups}</div>` : ''}</div>`);
     list.lastElementChild.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    setTimeout(step, hi >= B.length ? 300 : 1900);
+    // Reading pace for a child: 3 s base + 0.13 s per character (a group picture gets 2 s more). Tapping Nora's box moves on sooner.
+    const len = (b.say + (b.groups || '')).replace(/<[^>]+>/g, '').length;
+    clearTimeout(tm); tm = setTimeout(step, hi >= B.length ? 300 : 3000 + len * 130 + (b.groups ? 2000 : 0));
   };
-  setTimeout(step, 600);
+  let tm = setTimeout(step, 800);
+  hb.onclick = () => { if (hi && hi < B.length) { clearTimeout(tm); step(); } };
 }
 const LESSON_PEEKS = 1; // more "Show answer" presses than this in one lesson → no code, practise again
 function lessonPage(ch, n) {
