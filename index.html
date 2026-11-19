@@ -553,6 +553,18 @@ body.show-zh span.zh { display: inline; }
 .mf-items em { color: var(--muted); font-style: normal; }
 .mf-box.coin .mf-v { color: #b07800; } .mf-next { font-weight: 700; }
 .mf-bar { height: 12px; border-radius: 99px; background: #f3e6c4; overflow: hidden; } .mf-bar i { display: block; height: 100%; background: linear-gradient(90deg, #f6c445, #e3a008); }
+/* step-by-step thinking hints */
+.hintbox { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; align-items: start; margin: 4px 0 10px; }
+.opt-grid.wait, .opts.wait { opacity: .35; pointer-events: none; transition: opacity .3s; }
+.hlines { display: grid; gap: 6px; }
+.hl { background: #fff7e0; border: 2px solid #f0c75e; border-radius: 12px; padding: 5px 10px; font-size: 16px; line-height: 1.45; animation: hintpop .45s both; }
+.hlines { gap: 4px !important; } .hg.on { font-size: 18px !important; } .hgs { margin-top: 4px !important; }
+.hl .hp { color: #c2410c; font-size: 22px; }
+.hgs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.hg { border: 2px dashed var(--line); border-radius: 12px; padding: 4px 12px; font-weight: 800; color: var(--muted); font-size: 17px; }
+.hg.on { border: 3px solid #c2410c; color: #c2410c; background: #fff; font-size: 22px; }
+mark.hs { background: #ffe08a; border-radius: 6px; padding: 0 4px; box-shadow: 0 0 0 2px #f0b400; }
+@keyframes hintpop { 0% { opacity: 0; transform: translateY(-10px) scale(1.06); } 100% { opacity: 1; transform: none; } }
 /* rewards: town map + coin shop */
 .town { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; padding: 12px; border-radius: 20px; background: repeating-linear-gradient(90deg, #e9f6e3 0 46px, #e2f1db 46px 92px); border: 3px solid #b9d8a8; }
 .tz { background: #fffef8; border: 2px solid color-mix(in srgb, var(--tc) 45%, var(--line)); border-radius: 14px; padding: 8px 10px; display: grid; gap: 6px; align-content: start; }
@@ -1437,6 +1449,88 @@ const PRACTICE = {
 S.lessons = S.lessons || {};
 const lessonsDone = id => CHUNKS[id].every((_, n) => S.lessons[`${id}-${n + 1}`]);
 const LETTERS = 'ABCD';
+// ───────── Guided thinking (teacher request) ─────────
+// The first third of every practice set: Nora walks through the same logic as the animation, one beat at a time,
+// and the answer buttons wait until she is done. She never says the answer. The rest of the set is unaided.
+// Spec items: T(time cue, what it means) · S(subject, pronoun, 'two'|'three' groups) · W(word to look at, tip) · K(tip)
+const T = (w, l) => ['t', w, l], S_ = (w, p, g) => ['s', w, p, g], W = (w, t) => ['w', w, t], K = t => ['k', t];
+const GTL = { pres: '現在的習慣 → 現在式', prog: '正在發生 → am / is / are + 動詞ing', past: '已經過去了 → 過去式', fut: '還沒發生 → 未來式（will）',
+  pp: '過去一直到現在 → 現在完成式（have / has + 第三態）', ppr: '結果到現在還看得到 → 現在完成式（have / has + 第三態）', pf: '過去的某一刻' };
+const QD = '問句 → Do / Does 放最前面', QB = '問句 → am / is / are 跳到最前面', SAME = '過去式大家都一樣，不分人', FSAME = '未來大家都一樣，不分人 → will + 原形';
+const GUIDE = {
+  'pres-1': [[T('every day', GTL.pres), S_('Nora', 'she', 'two')], [T('every night', GTL.pres), S_('Theo', 'he', 'two'), K('watch 是 ch 結尾 → 加 s 的時候拼法要小心！')]],
+  'pres-2': [[T('every day', GTL.pres), K(QD), S_('Nora', 'she', 'two')], [T('every day', GTL.pres), K(QD), S_('you', 'you', 'two')]],
+  'pres-3': [[T('every day', GTL.pres), S_('Theo', 'he', 'two')], [T('every day', GTL.pres), S_('I', 'I', 'two')]],
+  'prog-1': [[T('now', GTL.prog), S_('I', 'I', 'three')], [T('now', GTL.prog), S_('Theo', 'he', 'three')]],
+  'prog-2': [[T('now', GTL.prog), W('make', 'e 結尾 → 加 ing 的時候，e 要怎麼辦？')], [T('Look!', GTL.prog), W('run', '一個母音 + 一個子音結尾 → 加 ing 要注意什麼？')]],
+  'prog-3': [[T('now', GTL.prog), K(QB), S_('Theo', 'he', 'three')], [T('right now', GTL.prog), K(QB), S_('they', 'they', 'three')]],
+  'past-1': [[T('Yesterday', GTL.past), K('walk 是規則動詞 → 過去式怎麼變？')], [T('last night', GTL.past), K('study 是「子音 + y」結尾 → 變過去式要注意什麼？')]],
+  'past-2': [[T('yesterday', GTL.past), K('go 是「變身動詞」，不能直接加 ed！')], [T('last night', GTL.past), K('see 是「變身動詞」，不能直接加 ed！')]],
+  'past-3': [[T('yesterday', GTL.past), K(SAME)], [T('yesterday', GTL.past), K('過去的問句 → 哪個字放最前面？')]],
+  'fut-1': [[T('tomorrow', GTL.fut), K(FSAME)], [T('next week', GTL.fut), W('will', 'will 後面，動詞要長什麼樣子？')]],
+  'fut-2': [[T('tomorrow', GTL.fut), K('未來的問句 → 哪個字跳到最前面？')], [T('tomorrow', GTL.fut), W('(不會)', '「不會」= will + not → 縮寫是？')]],
+  'pp-1': [[K('三態：原形 → 過去式 → 第三態（過去分詞）'), W('go', 'go 是變身動詞，第三態要特別記！')], [K('三態：原形 → 過去式 → 第三態（過去分詞）'), W('see', 'see 是變身動詞，第三態要特別記！')]],
+  'pp-2': [[T('just', '剛剛做完，' + GTL.ppr), S_('Theo', 'he', 'two')], [T('already', '已經做完，' + GTL.ppr), S_('I', 'I', 'two')]],
+  'pp-3': [[W('40 years', '這是「一段時間」還是「起點」？'), K('一段時間 → for；起點 → since')], [W('2020', '這是「一段時間」還是「起點」？'), K('一段時間 → for；起點 → since')]],
+  'pastpf-1': [[T('When Nora arrived', GTL.pf), K('鐘停下來，比 Nora 到達更早 → 過去的過去 → had + 第三態')], [T('when we got there', GTL.pf), W('had', 'had 後面接動詞的第幾態？')]],
+};
+// Mixed practice "Story clues": first 2 of each case, keyed unit id + case number (0 = first case).
+const GUIDE_MIX = {
+  pres0: [[T('usually', GTL.pres), S_('He', 'he', 'two')], [T('Every day', GTL.pres), S_('students', 'they', 'two')]],
+  pres1: [[T('every day', GTL.pres), S_('He', 'he', 'two')], [T('on Sundays', '每個星期天 → ' + GTL.pres), K(QD), S_('Mrs. Bell', 'she', 'two')]],
+  pres2: [[T('never', 'never 說的是習慣 → 現在式'), S_('He', 'he', 'two')], [T('every weekend', GTL.pres), K(QD), S_('the greenhouse', 'it', 'two')]],
+  prog0: [[T('Shh!', '「噓！」→ ' + GTL.prog), S_('Mr. Hale', 'he', 'three')], [T('tonight', '今晚、就在這一刻 → ' + GTL.prog), S_('he', 'he', 'three'), K('lie 加 ing 拼法要小心！')]],
+  prog1: [[T('Shh', '「噓！」→ ' + GTL.prog), S_('The woman in grey', 'she', 'three')], [T('right now', GTL.prog), S_('She', 'she', 'three'), K('take 是 e 結尾 → 加 ing 時 e 要怎麼辦？')]],
+  prog2: [[T('Listen!', '「聽！」→ ' + GTL.prog), S_('Someone', 'he / she', 'three'), K('tap 加 ing 拼法要小心！')], [T('Right now', GTL.prog), S_('the younger kids', 'they', 'three')]],
+  past0: [[T('last night', GTL.past), K('她打哈欠 → 昨晚「沒有」睡好')], [T('That year', GTL.past), K(SAME)]],
+  past1: [[T('Back in 1925', GTL.past), K('draw 是變身動詞，不能直接加 ed！')], [T('Back in 1925', GTL.past), K('過去的問句 → 哪個字放最前面？')]],
+  past2: [[T('was cold', '故事用 was → 發生在過去 → 過去式'), K('keep 是變身動詞，不能直接加 ed！')], [T('last Saturday', GTL.past), K('過去的問句 → 哪個字放在 Where 後面？')]],
+  fut0: [[T('soon', GTL.fut), K(FSAME)], [T('Hold on', '「等一下，我來…」→ 現在才決定要做 → will'), K('will 後面 → 原形')]],
+  fut1: [[T('tonight', GTL.fut), K('I think… 是猜以後會怎樣 → will')], [T('Don’t worry', '「別擔心，我來…」→ 現在才決定要做 → will')]],
+  fut2: [[T('Next week', GTL.fut), K(FSAME)], [W('Will you', '簡答：問句用什麼字開頭，回答就用那個字')]],
+  pp0: [[W('still can’t find it', '現在還找不到 → ' + GTL.ppr), S_('He', 'he', 'two')], [T('since she was nine', 'since → ' + GTL.pp), S_('She', 'she', 'two')]],
+  pp1: [[T('already', '已經做完，' + GTL.ppr), S_('He', 'he', 'two')], [W('Have you ever met', '簡答：問句用 Have 開頭，回答也用 have'), K('回答是 No → 要用否定')]],
+  pp2: [[T('for centuries', '好幾百年，' + GTL.pp), S_('People', 'they', 'two')], [T('in 1890', '確定的過去時間 → 過去式，不是現在完成式！')]],
+  pastpf0: [[T('When Nora opened the box', GTL.pf), K('鑰匙被拿走，比她打開盒子更早 → 過去的過去 → had + 第三態')], [T('knew', 'knew 是過去'), K('讀報紙比「知道」更早 → had + 第三態')]],
+  pastpf1: [[T('couldn’t open', 'couldn’t 是過去'), K('頁黏住，比她打開更早 → had + 第三態')], [T('was nervous', 'was 是過去'), K('「從來沒去過」在緊張之前 → had + never + 第三態')]],
+  pastpf2: [[T('wasn’t surprised', 'wasn’t 是過去'), K('她猜到，比 Mr. Hale 說出來更早 → had + 第三態')], [T('smiled', 'smiled 是過去'), K('等了好幾年，比微笑更早 → had + 第三態')]],
+};
+const GROUPS = { two: ['he / she / it', 'I / you / we / they'], three: ['I', 'he / she / it', 'you / we / they'] };
+function guideBeats(spec) {
+  if (!spec) return null;
+  const B = [], N = '①②③④⑤⑥⑦⑧'; let k = 0; const n = () => N[k++];
+  for (const [t, w, a, g] of spec) {
+    if (t === 't') B.push({ hl: w, say: `${n()} ⏰ 先找時間提示 👉 <b>${esc(w)}</b><br>→ ${a}` });
+    if (t === 'w') B.push({ hl: w, say: `${n()} 看這裡 👉 <b>${esc(w)}</b><br>→ ${a}` });
+    if (t === 'k') B.push({ say: `${n()} 💡 ${w}` });
+    if (t === 's') {
+      B.push({ hl: w, say: `${n()} 主詞是誰？👉 <b>${esc(w)}</b>` });
+      if (w.toLowerCase() !== a.toLowerCase()) B.push({ say: `${n()} <b>${esc(w)}</b> → 換成 <b class="hp">${a}</b>` });
+      const he = /^(he|she|it)/.test(a), gi = g === 'three' ? (a === 'I' ? 0 : he ? 1 : 2) : (he ? 0 : 1);
+      B.push({ say: `${n()} <b class="hp">${a}</b> 是哪一組？`, groups: GROUPS[g].map((x, i) => `<span class="hg ${i === gi ? 'on' : ''}">${x}</span>`).join('') });
+    }
+  }
+  B.push({ say: '👉 想好了嗎？答案你自己選！' });
+  return B;
+}
+// v3 quizzes: the cue already says which form.
+const v3Guide = (text, cue) => cue ? [/have|has|had|ever|never|already|just|yet|since/i.test(cue) || /\b(have|has|had)\b/.test(text.split('___')[0])
+  ? T(cue, 'have / has 後面 → 用第三態（過去分詞）') : T(cue, '已經過去了 → 用第二態（過去式）')] : null;
+const guideOn = (qi, len) => qi < Math.ceil(len / 3);
+const guideBox = () => `<div class="hintbox" id="hb"><div class="hnora">${avatar('nora', 58)}</div><div class="hlines"></div></div>`;
+// Plays the beats inside root (needs .prompt, #hb and an options grid); answer buttons wait until the last beat.
+function runGuide(root, B) {
+  const hb = root.querySelector('#hb'), list = hb.querySelector('.hlines'), og = root.querySelector('.opt-grid, .opts'); og.classList.add('wait'); let hi = 0;
+  const step = () => {
+    if (!hb.isConnected) return;
+    const b = B[hi++]; if (!b) { og.classList.remove('wait'); og.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); return; }
+    if (b.hl) { const pr = root.querySelector('.prompt'); pr.innerHTML = pr.innerHTML.replace(new RegExp(`(^|[^A-Za-z])(${esc(b.hl).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?![A-Za-z])`), '$1<mark class="hs">$2</mark>'); }
+    list.insertAdjacentHTML('beforeend', `<div class="hl">${b.say}${b.groups ? `<div class="hgs">${b.groups}</div>` : ''}</div>`);
+    list.lastElementChild.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    setTimeout(step, hi >= B.length ? 300 : 1900);
+  };
+  setTimeout(step, 600);
+}
 const LESSON_PEEKS = 1; // more "Show answer" presses than this in one lesson → no code, practise again
 function lessonPage(ch, n) {
   const i = CH.indexOf(ch), C = CHUNKS[ch.id][n - 1], total = CHUNKS[ch.id].length;
@@ -1465,9 +1559,13 @@ function lessonPage(ch, n) {
         wire(box); confetti(18); window.scrollTo(0, 0); return;
       }
       const [text, opts0, why] = Q[qi]; const [opts, ans] = mix(opts0, 0); let tried = false;
+      // First third of the set: Nora walks through the thinking chain automatically (no answer given); the rest is on their own.
+      const HB = guideOn(qi, Q.length) ? guideBeats((GUIDE[`${ch.id}-${n}`] || [])[qi]) : null;
       box.innerHTML = `<div class="step-label">✏️ 練習 ${qi + 1} / ${Q.length}</div><div class="lkey">${C.t}</div>
         <p class="prompt" style="font-size:24px">${esc(text).replace('___', '<span class="blank" id="bl">?</span>')}</p>
+        ${HB ? guideBox() : ''}
         <div class="opt-grid">${opts.map((o, k) => `<button class="opt" data-i="${k}"><span class="k">${'ABC'[k]}</span><span>${esc(o)}</span></button>`).join('')}</div>${revealBtn()}<div id="tfb"></div>`;
+      if (HB) runGuide(box, HB);
       const done = shown => {
         const rb = box.querySelector('#reveal'); if (rb) rb.remove();
         box.querySelectorAll('.opt').forEach(x => x.disabled = true); box.querySelector('#bl').textContent = opts[ans];
@@ -1612,9 +1710,11 @@ function v3Quiz(box, Q, head, onEnd) {
   const q = () => {
     if (qi >= Q.length) return onEnd(right, peeks);
     const [text, opts0, cue] = Q[qi]; const [opts, ans] = mix(opts0, 0); let tried = false;
+    const HB = guideOn(qi, Q.length) ? guideBeats(v3Guide(text, cue)) : null;
     box.innerHTML = `<div class="step-label">${head} ${qi + 1} / ${Q.length}</div>
-      <p class="prompt" style="font-size:24px">${esc(text).replace('___', '<span class="blank" id="bl">?</span>')}</p>
+      <p class="prompt" style="font-size:24px">${esc(text).replace('___', '<span class="blank" id="bl">?</span>')}</p>${HB ? guideBox() : ''}
       <div class="opt-grid">${opts.map((o, k) => `<button class="opt" data-i="${k}"><span class="k">${'ABC'[k]}</span><span>${esc(o)}</span></button>`).join('')}</div>${revealBtn()}<div id="tfb"></div>`;
+    if (HB) runGuide(box, HB);
     const why = cue ? `時間提示：<b>${esc(cue)}</b> → ${/have|has|ever|never|already|just|yet|since|for /i.test(cue) || /have|has/.test(text.split('___')[0]) ? '過去分詞' : '過去式'}` : '';
     const done = shown => {
       const rb = box.querySelector('#reveal'); if (rb) rb.remove();
@@ -2798,8 +2898,10 @@ function chapter(ch0, n) {
       }
       if (kind === 'ctx') {
         const [text, opts0, ans0, why] = item; const [opts, ans] = mix(opts0, ans0);
-        c = frame(head + `<p class="prompt">${esc(text).replace('___', '<span class="blank" id="bl">?</span>')}</p>
+        const ci = CH.findIndex(u => [u, ...EXTRA[u.id].cases].includes(ch)), HB = ci >= 0 && guideOn(qi, set.length) ? guideBeats((GUIDE_MIX[CH[ci].id + [CH[ci], ...EXTRA[CH[ci].id].cases].indexOf(ch)] || [])[qi]) : null;
+        c = frame(head + `<p class="prompt">${esc(text).replace('___', '<span class="blank" id="bl">?</span>')}</p>${HB ? guideBox() : ''}
           <div class="opts">${opts.map((o, i) => `<button class="opt" data-i="${i}"><span class="k">${'ABC'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>${revealBtn()}<div id="fb"></div>`);
+        if (HB) runGuide(c, HB);
         c.querySelector('#reveal').onclick = () => {
           if (!tried) { firstTry(false); tried = true; }
           c.querySelectorAll('.opt').forEach(x => x.disabled = true); c.querySelector(`.opt[data-i="${ans}"]`).classList.add('right');
